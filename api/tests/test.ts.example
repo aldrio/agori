@@ -1,0 +1,32 @@
+import { knex } from 'models'
+import Person from 'models/person'
+import { ValidationError } from 'objection'
+
+beforeAll(async () => {
+  await knex.migrate.latest()
+})
+
+beforeEach(async () => {
+  await knex.table('persons').truncate()
+})
+
+afterAll(async () => {
+  await knex.destroy()
+})
+
+describe('person insert', () => {
+  it('successfully inserts', async () => {
+    const person = await Person.query().insertGraph({
+      name: 'Brandon',
+    })
+
+    expect(person.id).toBeTruthy()
+  })
+  it('rejects person with empty name', async () => {
+    await expect(
+      Person.query().insertGraph({
+        name: '',
+      })
+    ).rejects.toThrow(ValidationError)
+  })
+})
