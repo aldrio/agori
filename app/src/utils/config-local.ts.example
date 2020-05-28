@@ -1,0 +1,28 @@
+import Constants from 'expo-constants'
+import { Configuration } from 'utils/config'
+
+const configs: Record<string, Configuration> = {
+  dev: {
+    ...
+  },
+  staging: {
+    ...
+  },
+  production: {
+    ...
+  },
+}
+
+let config: Configuration
+if (__DEV__) {
+  config = configs.dev
+} else {
+  const env = Constants.manifest.releaseChannel
+  config = configs[env]
+
+  if (!config) {
+    throw new Error('Not configured for chosen release channel')
+  }
+}
+
+export default config
