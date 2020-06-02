@@ -2,6 +2,8 @@ import React from 'react'
 import { useObserver } from 'mobx-react-lite'
 import auth from 'utils/auth'
 
+import { ApolloProvider } from '@apollo/react-hooks'
+
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components'
 import * as eva from '@eva-design/eva'
 import { agoriTheme } from 'utils/theme'
@@ -16,11 +18,20 @@ import {
 } from 'screens/Placeholder'
 import { AuthScreenName, AuthScreenParams, AuthScreen } from 'screens/Auth'
 import { MainScreenName, MainScreenParams, MainScreen } from 'screens/Main'
+import {
+  SearchUsersScreenName,
+  SearchUsersScreenParams,
+  SearchUsersScreen,
+} from 'screens/SearchUsers'
+import apolloClient from 'utils/apollo-client'
+import { UserScreenName, UserScreenParams, UserScreen } from 'screens/User'
 
 export type RootStackParamList = {
   [PlaceholderScreenName]: PlaceholderScreenParams
   [AuthScreenName]: AuthScreenParams
   [MainScreenName]: MainScreenParams
+  [SearchUsersScreenName]: SearchUsersScreenParams
+  [UserScreenName]: UserScreenParams
 }
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -35,28 +46,35 @@ export const App: React.FC<{}> = () => {
   return (
     <>
       <IconRegistry icons={EvaIconsPack} />
-      <ApplicationProvider {...eva} theme={agoriTheme}>
-        <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName={PlaceholderScreenName}
-            headerMode="none"
-          >
-            {isLoggedIn ? (
-              <>
-                <Stack.Screen name={MainScreenName} component={MainScreen} />
-              </>
-            ) : (
-              <>
-                <Stack.Screen
-                  name={PlaceholderScreenName}
-                  component={PlaceholderScreen}
-                />
-                <Stack.Screen name={AuthScreenName} component={AuthScreen} />
-              </>
-            )}
-          </Stack.Navigator>
-        </NavigationContainer>
-      </ApplicationProvider>
+      <ApolloProvider client={apolloClient}>
+        <ApplicationProvider {...eva} theme={agoriTheme}>
+          <NavigationContainer>
+            <Stack.Navigator
+              initialRouteName={PlaceholderScreenName}
+              headerMode="none"
+            >
+              {isLoggedIn ? (
+                <>
+                  <Stack.Screen name={MainScreenName} component={MainScreen} />
+                  <Stack.Screen
+                    name={SearchUsersScreenName}
+                    component={SearchUsersScreen}
+                  />
+                  <Stack.Screen name={UserScreenName} component={UserScreen} />
+                </>
+              ) : (
+                <>
+                  <Stack.Screen
+                    name={PlaceholderScreenName}
+                    component={PlaceholderScreen}
+                  />
+                  <Stack.Screen name={AuthScreenName} component={AuthScreen} />
+                </>
+              )}
+            </Stack.Navigator>
+          </NavigationContainer>
+        </ApplicationProvider>
+      </ApolloProvider>
     </>
   )
 }

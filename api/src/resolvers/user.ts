@@ -9,6 +9,7 @@ import {
   ArgsType,
   Int,
   Ctx,
+  ID,
 } from 'type-graphql'
 import { MaxLength, Min, Max, MinLength, IsEmail } from 'class-validator'
 import { Trim, NormalizeEmail } from 'class-sanitizer'
@@ -52,7 +53,7 @@ export default class UserResolver {
   constructor() {}
 
   @Query(() => User)
-  async user(@Arg('id') id: string): Promise<User> {
+  async user(@Arg('id', () => ID) id: string): Promise<User> {
     return await User.query().findById(id).throwIfNotFound()
   }
 

@@ -2,7 +2,7 @@ const expoPreset = require('jest-expo/jest-preset')
 const jestPreset = require('@testing-library/react-native/jest-preset')
 
 module.exports = {
-  ...expoPreset, 
+  ...expoPreset,
   ...jestPreset,
   setupFiles: [...expoPreset.setupFiles, ...jestPreset.setupFiles],
   testMatch: ['**/tests/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[tj]s?(x)'],

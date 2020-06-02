@@ -5,7 +5,6 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RouteProp } from '@react-navigation/native'
 import { Screen } from 'components/Screen'
 import { Text, Button } from '@ui-kitten/components'
-import auth from 'utils/auth'
 
 export const MainScreenName = 'MainScreen'
 export type MainScreenParams = {}
@@ -13,10 +12,7 @@ type MainScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   typeof MainScreenName
 >
-type MainScreenRouteProp = RouteProp<
-  RootStackParamList, 
-  typeof MainScreenName
->
+type MainScreenRouteProp = RouteProp<RootStackParamList, typeof MainScreenName>
 
 export type MainProps = {
   navigation: MainScreenNavigationProp
@@ -24,8 +20,15 @@ export type MainProps = {
 }
 export const MainScreen: React.FC<MainProps> = ({ navigation, route }) => {
   return (
-    <Screen title="Main" back>
+    <Screen title="Main">
       <Text>MainScreen</Text>
+      <Button
+        onPress={() => {
+          navigation.navigate('SearchUsersScreen', {})
+        }}
+      >
+        Search users
+      </Button>
     </Screen>
   )
 }

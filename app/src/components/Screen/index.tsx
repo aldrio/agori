@@ -1,9 +1,23 @@
 import React, { ReactElement } from 'react'
 import styles from './styles'
 import { useNavigation } from '@react-navigation/native'
-import { Divider, Icon, Layout, Text, TopNavigation, TopNavigationAction } from '@ui-kitten/components'
+import {
+  Divider,
+  Icon,
+  Layout,
+  Text,
+  TopNavigation,
+  TopNavigationAction,
+} from '@ui-kitten/components'
 import { RenderProp } from '@ui-kitten/components/devsupport'
-import { ImageProps, RefreshControl, SafeAreaView, ScrollView, View, StatusBar } from 'react-native'
+import {
+  ImageProps,
+  RefreshControl,
+  SafeAreaView,
+  ScrollView,
+  View,
+  StatusBar,
+} from 'react-native'
 import { agoriTheme } from 'utils/theme'
 
 const CloseIcon = (props?: Partial<ImageProps>): ReactElement => (
@@ -70,7 +84,10 @@ export const Screen: React.FC<ScreenProps> = ({
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <StatusBar backgroundColor={agoriTheme['color-primary-100']} barStyle="dark-content" />
+      <StatusBar
+        backgroundColor={agoriTheme['color-primary-100']}
+        barStyle="dark-content"
+      />
       <TopNavigation
         title={title}
         alignment="center"
