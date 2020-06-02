@@ -1,2 +1,7 @@
-import Config from 'utils/config'
-import logger from 'utils/logger'
+import 'reflect-metadata'
+
+import 'utils/config'
+import 'models'
+
+import { startServer } from './server'
+startServer()

@@ -18,7 +18,7 @@ const Config: Configuration = {
   logLevel: process.env.API_LOG_LEVEL || 'debug',
 
   dbConnection: {
-    client: process.env.API_DB_CLIENT,
+    client: 'pg',
     connection: process.env.API_DB_CONNECTION_STRING,
     useNullAsDefault: true,
     migrations: {

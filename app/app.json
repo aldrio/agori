@@ -4,6 +4,7 @@
     "slug": "Agori",
     "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
+    "scheme": "agori",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {

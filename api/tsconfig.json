@@ -1,11 +1,14 @@
 {
   "compilerOptions": {
-    "target": "ES6",
+    "target": "es2018",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
+    "lib": ["es2018", "esnext.asynciterable"],
     "resolveJsonModule": true,
     "strict": true,
-    "baseUrl": "./src"
+    "baseUrl": "./src",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   }
 }
