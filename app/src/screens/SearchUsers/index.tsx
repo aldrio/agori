@@ -30,6 +30,10 @@ export const SearchUsersScreen: React.FC<SearchUsersProps> = ({
 }) => {
   const { data, loading, error, refetch } = useQuery<SearchUsersQuery>(gql`
     query SearchUsersQuery {
+      me {
+        id
+        displayName
+      }
       users {
         id
         displayName
@@ -41,6 +45,7 @@ export const SearchUsersScreen: React.FC<SearchUsersProps> = ({
   if (data) {
     body = (
       <>
+        <Text>{data.me.displayName}</Text>
         {data.users.map((user) => (
           <Button
             key={user.id}

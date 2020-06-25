@@ -4,6 +4,7 @@ import { ApolloServer, gql } from 'apollo-server-koa'
 import { createTestClient } from 'apollo-server-testing'
 import { buildSchema, Mutation, Resolver, Query, Ctx } from 'type-graphql'
 import { knex } from 'models'
+import knexCleaner from 'knex-cleaner'
 import User from 'models/user'
 
 beforeAll(async () => {
@@ -11,7 +12,9 @@ beforeAll(async () => {
 })
 
 beforeEach(async () => {
-  await knex.table('users').truncate()
+  await knexCleaner.clean(knex, {
+    ignoreTables: ['knex_migrations', 'knex_migrations_lock'],
+  })
 })
 
 afterAll(async () => {

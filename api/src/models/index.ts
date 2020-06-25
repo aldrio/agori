@@ -18,3 +18,8 @@ export const knex = Knex({
   ...knexSnakeCaseMappers(),
 })
 Model.knex(knex)
+
+export { default as User } from './user'
+export { default as Chat } from './chat'
+export { default as ChatUser } from './chat-user'
+export { default as Message } from './message'

@@ -1,8 +1,9 @@
 import { Context, Next } from 'koa'
 import logger from 'utils/logger'
 import fetch from 'node-fetch'
-import jwkToPem, { JWK } from 'jwk-to-pem'
+import jwkToPem from 'jwk-to-pem'
 import jwt, { verify } from 'jsonwebtoken'
+import Config from 'utils/config'
 
 const log = logger.child({ module: 'auth' })
 
@@ -10,7 +11,7 @@ const pemMap: Promise<Map<string, string>> = new Promise<Map<string, string>>(
   async (resolve, reject) => {
     try {
       const res = await fetch(
-        `https://keycloak.cluster.aldr.io/auth/realms/agori/protocol/openid-connect/certs`
+        `${Config.keycloak.realmUrl}/protocol/openid-connect/certs`
       )
 
       const { keys } = await res.json()
@@ -30,19 +31,40 @@ const pemMap: Promise<Map<string, string>> = new Promise<Map<string, string>>(
   process.exit(1)
 })
 
-export default async (ctx: Context, next: Next) => {
+export type Authenticated = {
+  token: any
+  userId: string
+  roles: string[]
+}
+
+/**
+ * Returns authentication data or throws
+ *
+ * @param jwt
+ */
+export const jwtAuth = async (token: string): Promise<Authenticated> => {
+  const decoded = jwt.decode(token, { complete: true }) as any
+  const payload = verify(token, (await pemMap).get(decoded.header.kid)!) as any
+
+  return {
+    token: payload,
+    userId: payload.sub,
+    roles: payload.resource_access['agori-app'],
+  }
+}
+
+/**
+ * Adds authentication info to the koa context
+ */
+export const koaAuth = async (ctx: Context, next: Next) => {
   try {
     const token = (ctx.header.authorization as string).replace(/^Bearer /, '')
-    const decoded = jwt.decode(token, { complete: true }) as any
-    const payload = verify(
-      token,
-      (await pemMap).get(decoded.header.kid)!
-    ) as any
+    const auth = await jwtAuth(token)
 
     // Set up context
-    ctx.state.token = payload
-    ctx.state.userId = payload.sub
-    ctx.state.roles = payload.resource_access['agori-app']
+    ctx.state.token = auth.token
+    ctx.state.userId = auth.userId
+    ctx.state.roles = auth.roles
   } catch (_error) {
     ctx.state.token = undefined
     ctx.state.userId = undefined

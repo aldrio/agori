@@ -4,13 +4,13 @@ export default Config
 
 export type Configuration = {
   apiUrl: string
+  apiWsUrl: string
 
   /**
    * Keycloak configuration
    */
-  keycloakAuth: {
-    url: string
-    realm: string
+  keycloak: {
+    realmUrl: string
     clientId: string
   }
 }

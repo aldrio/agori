@@ -2,12 +2,12 @@ import StandardModel from './standard-model'
 import { Model } from 'objection'
 import { Field, ObjectType } from 'type-graphql'
 import path from 'path'
-import { Chat, ChatUser, Message } from 'models'
+import { ChatUser, Message, User } from 'models'
 
-@ObjectType('User')
-export default class User extends StandardModel {
+@ObjectType('Chat')
+export default class Chat extends StandardModel {
   static get tableName() {
-    return 'users'
+    return 'chats'
   }
 
   static relationMappings = {
@@ -15,29 +15,29 @@ export default class User extends StandardModel {
       relation: Model.HasManyRelation,
       modelClass: path.join(__dirname, 'chat-user'),
       join: {
-        from: 'users.id',
-        to: 'chats_users.userId',
+        from: 'chats.id',
+        to: 'chats_users.chatId',
       },
     },
-    chats: {
+    users: {
       relation: Model.ManyToManyRelation,
-      modelClass: path.join(__dirname, 'chat'),
+      modelClass: path.join(__dirname, 'user'),
       join: {
-        from: 'users.id',
+        from: 'chats.id',
         through: {
-          from: 'chats_users.userId',
-          to: 'chats_users.chatId',
+          from: 'chats_users.chatId',
+          to: 'chats_users.userId',
         },
-        to: 'chats.id',
+        to: 'users.id',
       },
     },
     messages: {
       relation: Model.ManyToManyRelation,
       modelClass: path.join(__dirname, 'message'),
       join: {
-        from: 'users.id',
+        from: 'chats.id',
         through: {
-          from: 'chats_users.userId',
+          from: 'chats_users.chatId',
           to: 'chats_users.id',
         },
         to: 'messages.chatUserId',
@@ -47,10 +47,16 @@ export default class User extends StandardModel {
 
   chatUsers?: ChatUser[]
 
-  chats?: Chat[]
+  users?: User[]
 
   messages?: Message[]
 
-  @Field(() => String)
-  displayName!: string
+  @Field(() => Boolean)
+  private!: boolean
+
+  @Field(() => String, { nullable: true })
+  displayName?: string | null
+
+  @Field(() => String, { nullable: true })
+  description?: string | null
 }

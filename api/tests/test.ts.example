@@ -1,13 +1,16 @@
 import { knex } from 'models'
 import Person from 'models/person'
 import { ValidationError } from 'objection'
+import knexCleaner from 'knex-cleaner'
 
 beforeAll(async () => {
   await knex.migrate.latest()
 })
 
 beforeEach(async () => {
-  await knex.table('persons').truncate()
+  await knexCleaner.clean(knex, {
+    ignoreTables: ['knex_migrations', 'knex_migrations_lock'],
+  })
 })
 
 afterAll(async () => {

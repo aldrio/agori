@@ -63,14 +63,14 @@ export class AuthManager {
     args: object
   ): Promise<void> => {
     const body = {
-      client_id: Config.keycloakAuth.clientId,
+      client_id: Config.keycloak.clientId,
       scope: 'offline_access',
       grant_type: grantType,
       ...args,
     }
 
     const res = await fetch(
-      `https://keycloak.cluster.aldr.io/auth/realms/${Config.keycloakAuth.realm}/protocol/openid-connect/token`,
+      `${Config.keycloak.realmUrl}/protocol/openid-connect/token`,
       {
         method: 'post',
         headers: {
@@ -82,7 +82,13 @@ export class AuthManager {
       }
     )
 
-    this.tokens = await res.json()
+    const tokens = await res.json()
+
+    if ('error' in tokens) {
+      throw new Error(tokens['error_description'])
+    }
+
+    this.tokens = tokens
     this.tokens!.expiresAt = Date.now() + this.tokens!.expires_in * 1000
   }
 
@@ -97,6 +103,11 @@ export class AuthManager {
     await this.getTokens('refresh_token', {
       refresh_token: this.tokens?.refresh_token,
     })
+  }
+
+  logout = async () => {
+    // TODO: Call backend to invalidate refresh token
+    this.tokens = null
   }
 }
 

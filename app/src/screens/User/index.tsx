@@ -4,7 +4,7 @@ import { RootStackParamList } from 'App'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RouteProp } from '@react-navigation/native'
 import { Screen } from 'components/Screen'
-import { Text } from '@ui-kitten/components'
+import { Text, Button } from '@ui-kitten/components'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { UserQuery, UserQueryVariables } from 'types/apollo-schema-types'
@@ -46,6 +46,13 @@ export const UserScreen: React.FC<ProfileProps> = ({ navigation, route }) => {
       <>
         <Text category="h3">{user.displayName}</Text>
         <Text>{JSON.stringify(data.user)}</Text>
+        <Button
+          onPress={() => {
+            navigation.navigate('ChatScreen', { userId: user.id })
+          }}
+        >
+          Chat
+        </Button>
       </>
     )
   }

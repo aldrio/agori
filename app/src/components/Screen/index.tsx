@@ -38,6 +38,7 @@ export type ScreenProps = {
   renderAccessoryRight?: RenderProp
   onRefresh?: () => void
   hideAccountAction?: boolean
+  noScroll?: boolean
 }
 export const Screen: React.FC<ScreenProps> = ({
   children,
@@ -50,6 +51,7 @@ export const Screen: React.FC<ScreenProps> = ({
   padding = true,
   renderAccessoryRight,
   onRefresh,
+  noScroll = false,
 }) => {
   const navigation = useNavigation()
 
@@ -82,6 +84,12 @@ export const Screen: React.FC<ScreenProps> = ({
     body = children
   }
 
+  body = (
+    <Layout style={[styles.innerScreen, padding && { padding: 16 }]}>
+      {body}
+    </Layout>
+  )
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <StatusBar
@@ -99,17 +107,22 @@ export const Screen: React.FC<ScreenProps> = ({
         }}
       />
       <Divider />
-      <ScrollView
-        style={{ flexGrow: 1 }}
-        contentContainerStyle={{ flexGrow: 1 }}
-        refreshControl={
-          <RefreshControl refreshing={loading === true} onRefresh={onRefresh} />
-        }
-      >
-        <Layout style={[styles.innerScreen, padding && { padding: 16 }]}>
+      {noScroll ? (
+        body
+      ) : (
+        <ScrollView
+          style={{ flexGrow: 1 }}
+          contentContainerStyle={{ flexGrow: 1 }}
+          refreshControl={
+            <RefreshControl
+              refreshing={loading === true}
+              onRefresh={onRefresh}
+            />
+          }
+        >
           {body}
-        </Layout>
-      </ScrollView>
+        </ScrollView>
+      )}
     </SafeAreaView>
   )
 }

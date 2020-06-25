@@ -10,6 +10,11 @@ export type Configuration = {
   webServer: {
     port: number
   }
+
+  keycloak: {
+    realmUrl: string
+    clientId: string
+  }
 }
 
 const Config: Configuration = {
@@ -31,6 +36,11 @@ const Config: Configuration = {
 
   webServer: {
     port: parseInt(process.env.API_WEB_SERVER_PORT || '8080'),
+  },
+
+  keycloak: {
+    realmUrl: process.env.API_KEYCLOAK_REALM_ENDPOINT!,
+    clientId: process.env.API_KEYCLOAK_CLIENT_ID!,
   },
 }
 

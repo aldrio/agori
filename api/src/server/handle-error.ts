@@ -2,7 +2,11 @@ import logger from 'utils/logger'
 import { GraphQLError, GraphQLFormattedError } from 'graphql'
 
 import { ValidationError } from 'apollo-server-koa'
-import { ArgumentValidationError, UnauthorizedError, ForbiddenError } from 'type-graphql'
+import {
+  ArgumentValidationError,
+  UnauthorizedError,
+  ForbiddenError,
+} from 'type-graphql'
 import { NotFoundError } from 'objection'
 
 /**

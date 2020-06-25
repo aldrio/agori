@@ -5,6 +5,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RouteProp } from '@react-navigation/native'
 import { Screen } from 'components/Screen'
 import { Text, Button } from '@ui-kitten/components'
+import auth from 'utils/auth'
 
 export const MainScreenName = 'MainScreen'
 export type MainScreenParams = {}
@@ -28,6 +29,13 @@ export const MainScreen: React.FC<MainProps> = ({ navigation, route }) => {
         }}
       >
         Search users
+      </Button>
+      <Button
+        onPress={() => {
+          auth.logout()
+        }}
+      >
+        Logout
       </Button>
     </Screen>
   )

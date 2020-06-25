@@ -6,13 +6,16 @@ import { buildSchema } from 'type-graphql'
 import { knex } from 'models'
 import UserResolver from './user'
 import { Sanitizer } from 'server/middleware/sanitizer'
+import knexCleaner from 'knex-cleaner'
 
 beforeAll(async () => {
   await knex.migrate.latest()
 })
 
 beforeEach(async () => {
-  await knex.table('users').truncate()
+  await knexCleaner.clean(knex, {
+    ignoreTables: ['knex_migrations', 'knex_migrations_lock'],
+  })
 })
 
 afterAll(async () => {

@@ -10,13 +10,16 @@ import {
   Int,
   Ctx,
   ID,
+  FieldResolver,
+  Root,
 } from 'type-graphql'
 import { MaxLength, Min, Max, MinLength, IsEmail } from 'class-validator'
 import { Trim, NormalizeEmail } from 'class-sanitizer'
 
-import User from 'models/user'
+import { User, Chat } from 'models'
 import { Dayjs } from 'dayjs'
 import { TrxContext } from 'server/middleware/transaction'
+import { UserCtx } from 'server/create-context'
 
 @InputType({ description: 'A new user input' })
 class NewUserInput {
@@ -53,6 +56,11 @@ export default class UserResolver {
   constructor() {}
 
   @Query(() => User)
+  async me(@Ctx() ctx: TrxContext & UserCtx): Promise<User> {
+    return ctx.user!
+  }
+
+  @Query(() => User)
   async user(@Arg('id', () => ID) id: string): Promise<User> {
     return await User.query().findById(id).throwIfNotFound()
   }
@@ -75,5 +83,17 @@ export default class UserResolver {
       .limit(take)
 
     return users
+  }
+
+  @FieldResolver(() => [Chat])
+  async chats(
+    @Ctx() ctx: TrxContext & UserCtx,
+    @Root() user: User
+  ): Promise<Chat[]> {
+    if (!user.chats) {
+      await user.$fetchGraph('chats', { transaction: await ctx.trx })
+    }
+
+    return user.chats!
   }
 }
