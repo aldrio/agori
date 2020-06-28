@@ -93,8 +93,17 @@ export default class ChatResolver {
     @Ctx() ctx: TrxContext & UserCtx,
     @Arg('id', () => ID) id: string
   ): Promise<Chat> {
-    return await Chat.query(await ctx.trx)
-      .findById(id)
+    // TODO: Allow viewing any if admin
+
+    const chatUser = await ChatUser.query(await ctx.trx)
+      .where({
+        userId: ctx.user!.id,
+        chatId: id,
+      })
+      .withGraphFetched('chat')
       .throwIfNotFound()
+      .first()
+
+    return chatUser.chat!
   }
 }

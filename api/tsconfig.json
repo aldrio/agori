@@ -7,8 +7,12 @@
     "lib": ["es2018", "esnext.asynciterable"],
     "resolveJsonModule": true,
     "strict": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "paths": {
+      "*": ["./src/*"],
+      "tests/*": ["./tests/*"]
+    }
   }
 }

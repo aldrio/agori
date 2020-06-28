@@ -4,8 +4,9 @@ import logger from 'utils/logger'
 import Koa from 'koa'
 
 import { ApolloServer } from 'apollo-server-koa'
+import { PluginDefinition } from 'apollo-server-core'
 import { SubscriptionServer } from 'subscriptions-transport-ws'
-import { buildSchema } from 'type-graphql'
+import { buildSchemaSync } from 'type-graphql'
 import UserResolver from 'resolvers/user'
 import ChatResolver from 'resolvers/chat'
 import MessageResolver from 'resolvers/message'
@@ -18,23 +19,35 @@ import { MapTypes } from './middleware/map-types'
 import { TransactionPlugin } from './middleware/transaction'
 import { jwtAuth, koaAuth } from './middleware/auth'
 import { Sanitizer } from './middleware/sanitizer'
-import { execute, subscribe } from 'graphql'
+import { execute, subscribe, GraphQLSchema } from 'graphql'
 
-export async function startServer() {
+export function createSchema(logger: boolean = true): GraphQLSchema {
+  return buildSchemaSync({
+    resolvers: [UserResolver, ChatResolver, MessageResolver, ChatUserResolver],
+    globalMiddlewares: [...(logger ? [Logger] : []), MapTypes, Sanitizer],
+  })
+}
+
+export function getGraphQLPlugins(): PluginDefinition[] {
+  return [TransactionPlugin]
+}
+
+export function createWebServer(): Koa {
   // Create koa app
   const app = new Koa()
   app.use(koaAuth)
+  return app
+}
 
-  // Create graphql schema
-  const schema = await buildSchema({
-    resolvers: [UserResolver, ChatResolver, MessageResolver, ChatUserResolver],
-    globalMiddlewares: [Logger, MapTypes, Sanitizer],
-  })
+export async function startServer() {
+  const schema = createSchema()
+  const app = createWebServer()
+  const plugins = getGraphQLPlugins()
 
   // Start graphql server
   const server = new ApolloServer({
     schema,
-    plugins: [TransactionPlugin],
+    plugins: plugins,
     playground: Config.env === 'dev',
     debug: Config.env === 'dev',
     formatError: handleError,

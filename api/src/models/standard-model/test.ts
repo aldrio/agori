@@ -1,20 +1,17 @@
-import { knex } from 'models'
 import User from 'models/user'
 import { v4 as uuid } from 'uuid'
-import knexCleaner from 'knex-cleaner'
+import testDatabaseConnection from 'tests/utils/test-database-connection'
 
 beforeAll(async () => {
-  await knex.migrate.latest()
+  await testDatabaseConnection.initDatabase()
 })
 
 beforeEach(async () => {
-  await knexCleaner.clean(knex, {
-    ignoreTables: ['knex_migrations', 'knex_migrations_lock'],
-  })
+  await testDatabaseConnection.cleanDatabase()
 })
 
 afterAll(async () => {
-  await knex.destroy()
+  await testDatabaseConnection.destroyDatabase()
 })
 
 describe('Standard model', () => {
