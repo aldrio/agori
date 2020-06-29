@@ -6,13 +6,22 @@
     "moduleResolution": "node",
     "lib": ["es2018", "esnext.asynciterable"],
     "resolveJsonModule": true,
-    "strict": true,
     "baseUrl": ".",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "paths": {
       "*": ["./src/*"],
       "tests/*": ["./tests/*"]
-    }
+    },
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": true
   }
 }
