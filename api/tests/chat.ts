@@ -1,6 +1,6 @@
 import { gql } from 'apollo-server-koa'
 import { v4 as uuid } from 'uuid'
-import { createUserTestClient } from 'tests/utils/test-client'
+import { createUserTestClient, createAdminTestClient } from 'tests/utils/test-client'
 import testDatabaseConnection from 'tests/utils/test-database-connection'
 
 beforeAll(async () => {
@@ -141,5 +141,37 @@ describe('Chat', () => {
       `,
     })
     expect(badChat.data).toBeFalsy()
+  })
+
+  it('Admins can moderate any chat', async () => {
+    const bob = await createUserTestClient('Bob')
+    const alice = await createUserTestClient('Alice')
+    const jane = await createAdminTestClient('Jane')
+
+    // Test getting private chat in both directions bob->alice and alice->bob
+    const bobAliceChat = await bob.query({
+      query: gql`
+        query {
+          privateChat(userId: "${alice.user.id}") {
+            id
+          }
+        }
+      `,
+    })
+    const bobAliceChatId = bobAliceChat.data!.privateChat.id
+    expect(bobAliceChatId).toBeTruthy()
+
+    // Jane should be able to access jane and bob's chat because jane is an admin
+    const goodChat = await jane.query({
+      query: gql`
+        query {
+          chat(id: "${bobAliceChatId}") {
+            id
+          }
+        }
+      `,
+    })
+    expect(goodChat.data).toBeTruthy()
+    expect(goodChat.errors).toBeFalsy()
   })
 })

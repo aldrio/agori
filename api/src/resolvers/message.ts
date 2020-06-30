@@ -12,6 +12,7 @@ import {
   InputType,
   Field,
   Subscription,
+  Authorized,
 } from 'type-graphql'
 import { UserCtx } from 'server/create-context'
 import { Message, ChatUser, User, Chat } from 'models'
@@ -67,6 +68,7 @@ export default class MessageResolver {
     return message.chat!
   }
 
+  @Authorized('USER')
   @Mutation(() => Message)
   async sendNewMessage(
     @Ctx() ctx: TrxContext & UserCtx,
@@ -98,6 +100,7 @@ export default class MessageResolver {
     return message
   }
 
+  @Authorized('USER')
   @Subscription(() => Message, { topics: 'CHAT_NEW_MESSAGES' })
   async newMessageSent(@Root() message: Message): Promise<Message> {
     return message

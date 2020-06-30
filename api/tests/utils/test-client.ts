@@ -9,13 +9,13 @@ const schema = createSchema(false)
 const plugins = getGraphQLPlugins()
 
 export async function createUserTestClient(
-  displayName: string,
-  roles: string[] = [],
+  displayName: string = 'UserPerson',
+  roles: string[] = ['USER'],
   userId: string = uuid()
 ): Promise<ApolloServerTestClient & { user: User }> {
   const server = new ApolloServer({
     schema,
-    plugins: plugins,
+    plugins,
     context: () => {
       return contextFromAuthentication({
         userId: userId,
@@ -42,4 +42,12 @@ export async function createUserTestClient(
   const user = await User.query().findById(res.data!.me.id)
 
   return { ...testClient, user }
+}
+
+export async function createAdminTestClient(
+  displayName: string = 'AdminPerson',
+  roles: string[] = ['ADMIN', 'USER'],
+  userId: string = uuid()
+): Promise<ApolloServerTestClient & { user: User }> {
+  return await createUserTestClient(displayName, roles, userId)
 }

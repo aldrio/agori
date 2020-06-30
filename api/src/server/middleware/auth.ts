@@ -49,7 +49,7 @@ export const jwtAuth = async (token: string): Promise<Authenticated> => {
   return {
     token: payload,
     userId: payload.sub,
-    roles: payload.resource_access['agori-app'],
+    roles: payload.resource_access[Config.keycloak.clientId]?.roles || [],
   }
 }
 

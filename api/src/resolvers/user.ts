@@ -12,6 +12,8 @@ import {
   ID,
   FieldResolver,
   Root,
+  Authorized,
+  UnauthorizedError,
 } from 'type-graphql'
 import { MaxLength, Min, Max, MinLength, IsEmail } from 'class-validator'
 import { Trim, NormalizeEmail } from 'class-sanitizer'
@@ -19,7 +21,7 @@ import { Trim, NormalizeEmail } from 'class-sanitizer'
 import { User, Chat } from 'models'
 import { Dayjs } from 'dayjs'
 import { TrxContext } from 'server/middleware/transaction'
-import { UserCtx } from 'server/create-context'
+import { UserCtx, isAdmin } from 'server/create-context'
 
 @InputType({ description: 'A new user input' })
 class NewUserInput {
@@ -55,16 +57,19 @@ class UsersArgs {
 export default class UserResolver {
   constructor() {}
 
+  @Authorized('USER')
   @Query(() => User)
   async me(@Ctx() ctx: TrxContext & UserCtx): Promise<User> {
     return ctx.user!
   }
 
+  @Authorized('USER')
   @Query(() => User)
   async user(@Arg('id', () => ID) id: string): Promise<User> {
     return await User.query().findById(id).throwIfNotFound()
   }
 
+  @Authorized('ADMIN')
   @Mutation(() => User)
   async createUser(
     @Arg('newUser') newUser: NewUserInput,
@@ -75,6 +80,8 @@ export default class UserResolver {
     })
   }
 
+  // TODO: Make only for admins, users should search
+  @Authorized('USER')
   @Query(() => [User])
   async users(@Args() { skip, take }: UsersArgs): Promise<User[]> {
     const users = await User.query()
@@ -85,11 +92,19 @@ export default class UserResolver {
     return users
   }
 
+  @Authorized('USER')
   @FieldResolver(() => [Chat])
   async chats(
     @Ctx() ctx: TrxContext & UserCtx,
     @Root() user: User
   ): Promise<Chat[]> {
+    // Only allow users to view their own chats
+    if (!isAdmin(ctx)) {
+      if (user.id !== ctx.user!.id) {
+        throw new UnauthorizedError()
+      }
+    }
+
     if (!user.chats) {
       await user.$fetchGraph('chats', { transaction: await ctx.trx })
     }

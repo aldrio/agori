@@ -9,6 +9,14 @@ export interface UserCtx {
   roles: string[]
 }
 
+export const isUser = (userCtx: UserCtx) => {
+  return userCtx.roles.includes('USER')
+}
+
+export const isAdmin = (userCtx: UserCtx) => {
+  return userCtx.roles.includes('ADMIN')
+}
+
 /**
  * Creates the context for graphql queries
  *

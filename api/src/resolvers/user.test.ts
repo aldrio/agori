@@ -1,40 +1,23 @@
-import { TransactionPlugin } from 'server/middleware/transaction'
-
-import { ApolloServer, gql } from 'apollo-server-koa'
-import { createTestClient } from 'apollo-server-testing'
-import { buildSchema } from 'type-graphql'
-import { knex } from 'models'
-import UserResolver from './user'
-import { Sanitizer } from 'server/middleware/sanitizer'
-import knexCleaner from 'knex-cleaner'
+import { gql } from 'apollo-server-koa'
+import { createAdminTestClient } from 'tests/utils/test-client'
+import testDatabaseConnection from 'tests/utils/test-database-connection'
 
 beforeAll(async () => {
-  await knex.migrate.latest()
+  await testDatabaseConnection.initDatabase()
 })
 
 beforeEach(async () => {
-  await knexCleaner.clean(knex, {
-    ignoreTables: ['knex_migrations', 'knex_migrations_lock'],
-  })
+  await testDatabaseConnection.cleanDatabase()
 })
 
 afterAll(async () => {
-  await knex.destroy()
+  await testDatabaseConnection.destroyDatabase()
 })
 
 describe('User resolver', () => {
   it('trims displayName', async () => {
-    const schema = await buildSchema({
-      resolvers: [UserResolver],
-      globalMiddlewares: [Sanitizer],
-    })
-    const server = new ApolloServer({
-      schema,
-      plugins: [TransactionPlugin],
-    })
-
-    const { query } = createTestClient(server)
-    const res = await query({
+    const admin = await createAdminTestClient()
+    const res = await admin.query({
       query: gql`
         mutation {
           createUser(newUser: { displayName: "  wut  " }) {
@@ -49,17 +32,8 @@ describe('User resolver', () => {
   })
 
   it('rejects displayName with only whitspace', async () => {
-    const schema = await buildSchema({
-      resolvers: [UserResolver],
-      globalMiddlewares: [Sanitizer],
-    })
-    const server = new ApolloServer({
-      schema,
-      plugins: [TransactionPlugin],
-    })
-
-    const { query } = createTestClient(server)
-    const res = await query({
+    const admin = await createAdminTestClient()
+    const res = await admin.query({
       query: gql`
         mutation {
           createUser(newUser: { displayName: "    " }) {

@@ -13,6 +13,7 @@ export default {
    * Destroys database
    */
   destroyDatabase: async () => {
+    await knex.migrate.rollback()
     await knex.destroy()
   },
 

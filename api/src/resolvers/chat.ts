@@ -7,14 +7,16 @@ import {
   Query,
   ID,
   FieldResolver,
+  Authorized,
 } from 'type-graphql'
-import { UserCtx } from 'server/create-context'
+import { UserCtx, isAdmin } from 'server/create-context'
 import { User, Chat, Message, ChatUser } from 'models'
 
 @Resolver(Chat)
 export default class ChatResolver {
   constructor() {}
 
+  @Authorized('USER')
   @Query(() => Chat)
   async privateChat(
     @Ctx() ctx: TrxContext & UserCtx,
@@ -88,22 +90,27 @@ export default class ChatResolver {
     return chat.chatUsers!
   }
 
+  @Authorized('USER')
   @Query(() => Chat)
   async chat(
     @Ctx() ctx: TrxContext & UserCtx,
     @Arg('id', () => ID) id: string
   ): Promise<Chat> {
-    // TODO: Allow viewing any if admin
+    if (isAdmin(ctx)) {
+      return await Chat.query(await ctx.trx)
+        .findById(id)
+        .throwIfNotFound()
+    } else {
+      const chatUser = await ChatUser.query(await ctx.trx)
+        .where({
+          userId: ctx.user!.id,
+          chatId: id,
+        })
+        .withGraphFetched('chat')
+        .throwIfNotFound()
+        .first()
 
-    const chatUser = await ChatUser.query(await ctx.trx)
-      .where({
-        userId: ctx.user!.id,
-        chatId: id,
-      })
-      .withGraphFetched('chat')
-      .throwIfNotFound()
-      .first()
-
-    return chatUser.chat!
+      return chatUser.chat!
+    }
   }
 }
