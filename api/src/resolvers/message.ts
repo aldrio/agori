@@ -13,8 +13,9 @@ import {
   Field,
   Subscription,
   Authorized,
+  UnauthorizedError,
 } from 'type-graphql'
-import { UserCtx } from 'server/create-context'
+import { UserCtx, isAdmin } from 'server/create-context'
 import { Message, ChatUser, User, Chat } from 'models'
 import { Trim } from 'class-sanitizer'
 import { MinLength, MaxLength } from 'class-validator'
@@ -96,13 +97,45 @@ export default class MessageResolver {
       transaction: await ctx.trx,
     })
 
-    await pubSub.publish('CHAT_NEW_MESSAGES', message)
+    await pubSub.publish(`CHAT_${chatId}_NEW_MESSAGE`, message)
     return message
   }
 
   @Authorized('USER')
-  @Subscription(() => Message, { topics: 'CHAT_NEW_MESSAGES' })
-  async newMessageSent(@Root() message: Message): Promise<Message> {
+  @Subscription(() => Message, {
+    topics: ({ args }) => `CHAT_${args.chatId}_NEW_MESSAGE`,
+    filter: async ({ args, context: ctx }) => {
+      const { chatId } = args
+
+      if (isAdmin(ctx)) {
+        return true
+      }
+
+      // Set ctx.authorized based on permission to view chat
+      if (ctx.authorized === undefined) {
+        const chatUser = await ChatUser.query(await ctx.trx)
+          .where({
+            userId: ctx.user!.id,
+            chatId: chatId,
+          })
+          .withGraphFetched('chat')
+          .first()
+
+        if (chatUser) {
+          ctx.authorized = true
+        } else {
+          ctx.authorized = false
+          throw new UnauthorizedError()
+        }
+      }
+
+      return ctx.authorized
+    },
+  })
+  async newMessageSent(
+    @Root() message: Message,
+    @Arg('chatId', () => ID) _chatId: string
+  ): Promise<Message> {
     return message
   }
 }

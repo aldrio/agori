@@ -95,6 +95,10 @@ export interface ChatSubscription {
   newMessageSent: ChatSubscription_newMessageSent;
 }
 
+export interface ChatSubscriptionVariables {
+  chatId: string;
+}
+
 /* tslint:disable */
 /* eslint-disable */
 // @generated

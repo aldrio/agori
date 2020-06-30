@@ -12,6 +12,7 @@ import {
   ChatSubscription,
   SendMessageMutationVariables,
   ChatQuery,
+  ChatSubscriptionVariables,
 } from 'types/apollo-schema-types'
 import { View, ToastAndroid } from 'react-native'
 import { Messages } from 'components/Messages'
@@ -69,10 +70,14 @@ export const ChatScreen: React.FC<ChatProps> = ({ navigation, route }) => {
     }
   )
   useEffect(() => {
-    subscribeToMore<ChatSubscription>({
+    if (!data) {
+      return
+    }
+
+    return subscribeToMore<ChatSubscription, ChatSubscriptionVariables>({
       document: gql`
-        subscription ChatSubscription {
-          newMessageSent {
+        subscription ChatSubscription($chatId: ID!) {
+          newMessageSent(chatId: $chatId) {
             id
             chatUser {
               id
@@ -87,6 +92,9 @@ export const ChatScreen: React.FC<ChatProps> = ({ navigation, route }) => {
           }
         }
       `,
+      variables: {
+        chatId: data.privateChat.id,
+      },
       updateQuery: (prev, { subscriptionData }) => {
         if (!subscriptionData.data) {
           return prev
@@ -103,7 +111,7 @@ export const ChatScreen: React.FC<ChatProps> = ({ navigation, route }) => {
         }
       },
     })
-  }, [subscribeToMore])
+  }, [data, subscribeToMore])
 
   const [sendMessage, sendMessageRes] = useMutation<
     SendMessageMutation,
