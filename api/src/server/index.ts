@@ -11,6 +11,7 @@ import UserResolver from 'resolvers/user'
 import ChatResolver from 'resolvers/chat'
 import MessageResolver from 'resolvers/message'
 import ChatUserResolver from 'resolvers/chat-user'
+import InterestResolver from 'resolvers/interest'
 import handleError from './handle-error'
 import createContext, { contextFromAuthentication } from './create-context'
 import authChecker from './auth-checker'
@@ -24,7 +25,13 @@ import { execute, subscribe, GraphQLSchema } from 'graphql'
 
 export function createSchema(logger: boolean = true): GraphQLSchema {
   return buildSchemaSync({
-    resolvers: [UserResolver, ChatResolver, MessageResolver, ChatUserResolver],
+    resolvers: [
+      UserResolver,
+      ChatResolver,
+      MessageResolver,
+      ChatUserResolver,
+      InterestResolver,
+    ],
     globalMiddlewares: [...(logger ? [Logger] : []), MapTypes, Sanitizer],
     authChecker,
   })

@@ -18,7 +18,7 @@ import {
 import { MaxLength, Min, Max, MinLength, IsEmail } from 'class-validator'
 import { Trim, NormalizeEmail } from 'class-sanitizer'
 
-import { User, Chat } from 'models'
+import { User, Chat, Interest } from 'models'
 import { Dayjs } from 'dayjs'
 import { TrxContext } from 'server/middleware/transaction'
 import { UserCtx, isAdmin } from 'server/create-context'
@@ -110,5 +110,18 @@ export default class UserResolver {
     }
 
     return user.chats!
+  }
+
+  @Authorized('USER')
+  @FieldResolver(() => [Interest])
+  async interests(
+    @Ctx() ctx: TrxContext & UserCtx,
+    @Root() user: User
+  ): Promise<Interest[]> {
+    if (!user.interests) {
+      await user.$fetchGraph('interests', { transaction: await ctx.trx })
+    }
+
+    return user.interests!
   }
 }

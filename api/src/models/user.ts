@@ -2,7 +2,7 @@ import StandardModel from './standard-model'
 import { Model } from 'objection'
 import { Field, ObjectType } from 'type-graphql'
 import path from 'path'
-import { Chat, ChatUser, Message } from 'models'
+import { Chat, ChatUser, Message, InterestUser, Interest } from 'models'
 
 @ObjectType('User')
 export default class User extends StandardModel {
@@ -43,6 +43,26 @@ export default class User extends StandardModel {
         to: 'messages.chatUserId',
       },
     },
+    interestUsers: {
+      relation: Model.HasManyRelation,
+      modelClass: path.join(__dirname, 'interest-user'),
+      join: {
+        from: 'users.id',
+        to: 'interests_users.userId',
+      },
+    },
+    interests: {
+      relation: Model.ManyToManyRelation,
+      modelClass: path.join(__dirname, 'interest'),
+      join: {
+        from: 'users.id',
+        through: {
+          from: 'interests_users.userId',
+          to: 'interests_users.interestId',
+        },
+        to: 'interests.id',
+      },
+    },
   }
 
   chatUsers?: ChatUser[]
@@ -50,6 +70,10 @@ export default class User extends StandardModel {
   chats?: Chat[]
 
   messages?: Message[]
+
+  interestUsers?: InterestUser[]
+
+  interests?: Interest[]
 
   @Field(() => String)
   displayName!: string
