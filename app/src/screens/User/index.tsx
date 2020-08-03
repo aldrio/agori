@@ -4,10 +4,12 @@ import { RootStackParamList } from 'App'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RouteProp } from '@react-navigation/native'
 import { Screen } from 'components/Screen'
-import { Text, Button } from '@ui-kitten/components'
+import { Text, Button, Divider } from '@ui-kitten/components'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { UserQuery, UserQueryVariables } from 'types/apollo-schema-types'
+import { Chip } from 'components/Chip'
+import { Alert, View } from 'react-native'
 
 export const UserScreenName = 'UserScreen'
 export type UserScreenParams = {
@@ -33,6 +35,17 @@ export const UserScreen: React.FC<ProfileProps> = ({ navigation, route }) => {
         user(id: $userId) {
           id
           displayName
+          interests {
+            id
+            label
+            description
+          }
+        }
+        me {
+          id
+          interests {
+            id
+          }
         }
       }
     `,
@@ -53,6 +66,29 @@ export const UserScreen: React.FC<ProfileProps> = ({ navigation, route }) => {
         >
           Chat
         </Button>
+
+        <Divider />
+        <View>
+          <Text category="h6">Interests</Text>
+          <View style={styles.interestList}>
+            {user.interests.map((interest) => {
+              const isMatch = !!data.me.interests.find(
+                (mi) => mi.id === interest.id
+              )
+
+              return (
+                <Chip
+                  label={interest.label}
+                  onLongPress={() =>
+                    Alert.alert(interest.description || 'No description')
+                  }
+                  active={isMatch}
+                />
+              )
+            })}
+          </View>
+          <Divider />
+        </View>
       </>
     )
   }

@@ -2,6 +2,7 @@
   "main": "src",
   "private": true,
   "scripts": {
+    "dev": "yarn run start",
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
@@ -54,6 +55,7 @@
     "@types/react-test-renderer": "^16.9.2",
     "babel-plugin-module-resolver": "^4.0.0",
     "babel-preset-expo": "~8.1.0",
+    "hygen": "^6.0.4",
     "jest": "^24.7.1",
     "jest-expo": "^37.0.0",
     "prettier": "^2.0.5",

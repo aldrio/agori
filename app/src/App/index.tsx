@@ -26,6 +26,11 @@ import {
 import apolloClient from 'utils/apollo-client'
 import { UserScreenName, UserScreenParams, UserScreen } from 'screens/User'
 import { ChatScreenName, ChatScreenParams, ChatScreen } from 'screens/Chat'
+import {
+  InterestsScreenName,
+  InterestsScreenParams,
+  InterestsScreen,
+} from 'screens/Interests'
 
 export type RootStackParamList = {
   [PlaceholderScreenName]: PlaceholderScreenParams
@@ -34,6 +39,7 @@ export type RootStackParamList = {
   [SearchUsersScreenName]: SearchUsersScreenParams
   [UserScreenName]: UserScreenParams
   [ChatScreenName]: ChatScreenParams
+  [InterestsScreenName]: InterestsScreenParams
 }
 const Stack = createStackNavigator<RootStackParamList>()
 
@@ -64,6 +70,10 @@ export const App: React.FC<{}> = () => {
                   />
                   <Stack.Screen name={UserScreenName} component={UserScreen} />
                   <Stack.Screen name={ChatScreenName} component={ChatScreen} />
+                  <Stack.Screen
+                    name={InterestsScreenName}
+                    component={InterestsScreen}
+                  />
                 </>
               ) : (
                 <>

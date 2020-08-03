@@ -32,6 +32,13 @@ export const MainScreen: React.FC<MainProps> = ({ navigation, route }) => {
       </Button>
       <Button
         onPress={() => {
+          navigation.navigate('InterestsScreen', {})
+        }}
+      >
+        Interests
+      </Button>
+      <Button
+        onPress={() => {
           auth.logout()
         }}
       >

@@ -4,6 +4,92 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: InterestsToggleQuery
+// ====================================================
+
+export interface InterestsToggleQuery_me_interests {
+  __typename: "Interest";
+  id: string;
+}
+
+export interface InterestsToggleQuery_me {
+  __typename: "User";
+  id: string;
+  interests: InterestsToggleQuery_me_interests[];
+}
+
+export interface InterestsToggleQuery {
+  me: InterestsToggleQuery_me;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: AddInterestMutation
+// ====================================================
+
+export interface AddInterestMutation_addInterest_interests {
+  __typename: "Interest";
+  id: string;
+}
+
+export interface AddInterestMutation_addInterest {
+  __typename: "User";
+  id: string;
+  interests: AddInterestMutation_addInterest_interests[];
+}
+
+export interface AddInterestMutation {
+  /**
+   * Add an interest to user
+   */
+  addInterest: AddInterestMutation_addInterest;
+}
+
+export interface AddInterestMutationVariables {
+  interestId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: RemoveInterestMutation
+// ====================================================
+
+export interface RemoveInterestMutation_removeInterest_interests {
+  __typename: "Interest";
+  id: string;
+}
+
+export interface RemoveInterestMutation_removeInterest {
+  __typename: "User";
+  id: string;
+  interests: RemoveInterestMutation_removeInterest_interests[];
+}
+
+export interface RemoveInterestMutation {
+  /**
+   * Remove an interest to user
+   */
+  removeInterest: RemoveInterestMutation_removeInterest;
+}
+
+export interface RemoveInterestMutationVariables {
+  interestId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: ChatQuery
 // ====================================================
 
@@ -128,6 +214,38 @@ export interface SendMessageMutationVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: InterestsQuery
+// ====================================================
+
+export interface InterestsQuery_me_interests {
+  __typename: "Interest";
+  id: string;
+}
+
+export interface InterestsQuery_me {
+  __typename: "User";
+  id: string;
+  interests: InterestsQuery_me_interests[];
+}
+
+export interface InterestsQuery_interests {
+  __typename: "Interest";
+  id: string;
+  label: string;
+  description: string;
+}
+
+export interface InterestsQuery {
+  me: InterestsQuery_me;
+  interests: InterestsQuery_interests[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: SearchUsersQuery
 // ====================================================
 
@@ -157,14 +275,34 @@ export interface SearchUsersQuery {
 // GraphQL query operation: UserQuery
 // ====================================================
 
+export interface UserQuery_user_interests {
+  __typename: "Interest";
+  id: string;
+  label: string;
+  description: string;
+}
+
 export interface UserQuery_user {
   __typename: "User";
   id: string;
   displayName: string;
+  interests: UserQuery_user_interests[];
+}
+
+export interface UserQuery_me_interests {
+  __typename: "Interest";
+  id: string;
+}
+
+export interface UserQuery_me {
+  __typename: "User";
+  id: string;
+  interests: UserQuery_me_interests[];
 }
 
 export interface UserQuery {
   user: UserQuery_user;
+  me: UserQuery_me;
 }
 
 export interface UserQueryVariables {
@@ -199,6 +337,22 @@ export interface MessageFragment {
   createdAt: any;
   updatedAt: any;
   content: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: InterestToggleFragment
+// ====================================================
+
+export interface InterestToggleFragment {
+  __typename: "Interest";
+  id: string;
+  label: string;
+  description: string;
 }
 
 /* tslint:disable */
