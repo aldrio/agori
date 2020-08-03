@@ -1,0 +1,3 @@
+.expo/
+.expo-shared/
+src/types/apollo-schema-types.ts
