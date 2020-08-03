@@ -14,6 +14,7 @@ import { UserCtx } from 'server/create-context'
 import { User, Interest } from 'models'
 import { Trim } from 'class-sanitizer'
 import { MinLength, MaxLength } from 'class-validator'
+import { UniqueViolationError } from 'objection'
 
 @InputType({ description: 'A new interest input' })
 class NewInterestInput {
@@ -86,7 +87,17 @@ export default class InterestResolver {
       .findById(ctx.user!.id)
       .throwIfNotFound()
 
-    await user.$relatedQuery('interests', await ctx.trx).relate(interestId)
+    const relateTrx = await (await ctx.trx).transaction()
+    try {
+      await user.$relatedQuery('interests', relateTrx).relate(interestId)
+      await relateTrx.commit()
+    } catch (error) {
+      await relateTrx.rollback()
+      // Consume unique violation errors
+      if (!(error instanceof UniqueViolationError)) {
+        throw error
+      }
+    }
 
     return user
   }
