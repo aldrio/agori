@@ -90,6 +90,31 @@ export interface RemoveInterestMutationVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: EditProfileMutation
+// ====================================================
+
+export interface EditProfileMutation_editMe {
+  __typename: "User";
+  id: string;
+  displayName: string;
+  bio: string | null;
+}
+
+export interface EditProfileMutation {
+  editMe: EditProfileMutation_editMe;
+}
+
+export interface EditProfileMutationVariables {
+  displayName?: string | null;
+  bio?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: ChatQuery
 // ====================================================
 
@@ -214,6 +239,26 @@ export interface SendMessageMutationVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: ProfileQuery
+// ====================================================
+
+export interface ProfileQuery_me {
+  __typename: "User";
+  id: string;
+  displayName: string;
+  bio: string | null;
+}
+
+export interface ProfileQuery {
+  me: ProfileQuery_me;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: InterestsQuery
 // ====================================================
 
@@ -287,6 +332,7 @@ export interface UserQuery_user {
   id: string;
   displayName: string;
   interests: UserQuery_user_interests[];
+  bio: string | null;
 }
 
 export interface UserQuery_me_interests {
@@ -353,6 +399,22 @@ export interface InterestToggleFragment {
   id: string;
   label: string;
   description: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: ProfileFormFragment
+// ====================================================
+
+export interface ProfileFormFragment {
+  __typename: "User";
+  id: string;
+  displayName: string;
+  bio: string | null;
 }
 
 /* tslint:disable */

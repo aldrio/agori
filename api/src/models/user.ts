@@ -77,4 +77,7 @@ export default class User extends StandardModel {
 
   @Field(() => String)
   displayName!: string
+
+  @Field(() => String, { nullable: true })
+  bio!: string | null
 }

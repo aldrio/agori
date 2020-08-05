@@ -22,6 +22,8 @@ import { User, Chat, Interest } from 'models'
 import { Dayjs } from 'dayjs'
 import { TrxContext } from 'server/middleware/transaction'
 import { UserCtx, isAdmin } from 'server/create-context'
+import logger from 'utils/logger'
+import { ValidationError } from 'apollo-server-koa'
 
 @InputType({ description: 'A new user input' })
 class NewUserInput {
@@ -39,6 +41,20 @@ class NewUserInput {
   @Field(() => Date, { nullable: true })
   @MaxLength(30)
   deletedAt?: Dayjs | null
+}
+
+@InputType({ description: 'Edit a user' })
+class EditUserInput {
+  @Field(() => String, { nullable: true })
+  @Trim()
+  @MinLength(1)
+  @MaxLength(30)
+  displayName?: string
+
+  @Field(() => String, { nullable: true })
+  @Trim()
+  @MaxLength(1000)
+  bio?: string | null
 }
 
 @ArgsType()
@@ -78,6 +94,33 @@ export default class UserResolver {
     return await User.query(await ctx.trx).insert({
       displayName: newUser.displayName,
     })
+  }
+
+  @Authorized('USER')
+  @Mutation(() => User)
+  async editMe(
+    @Arg('editUser') editUser: EditUserInput,
+    @Ctx() ctx: TrxContext & UserCtx
+  ): Promise<User> {
+    return this.editUser(ctx.user!.id, editUser, ctx)
+  }
+
+  @Authorized('ADMIN')
+  @Mutation(() => User)
+  async editUser(
+    @Arg('userId', () => ID) userId: string,
+    @Arg('editUser') editUser: EditUserInput,
+    @Ctx() ctx: TrxContext & UserCtx
+  ): Promise<User> {
+    if (editUser.displayName === null) {
+      throw new ValidationError('displayName cannot be null')
+    }
+
+    logger.info('editing user', { userId, editUser })
+    return await User.query(await ctx.trx).patchAndFetchById(
+      ctx.user!.id,
+      editUser
+    )
   }
 
   // TODO: Make only for admins, users should search
