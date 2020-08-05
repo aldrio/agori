@@ -41,6 +41,7 @@ import {
   EditProfileScreenParams,
   EditProfileScreen,
 } from 'screens/EditProfile'
+import { PortalProvider } from 'react-native-portal'
 
 export type RootStackParamList = {
   [PlaceholderScreenName]: PlaceholderScreenParams
@@ -68,44 +69,47 @@ export const App: React.FC<{}> = () => {
       <IconRegistry icons={EvaIconsPack} />
       <ApolloProvider client={apolloClient}>
         <ApplicationProvider {...eva} theme={agoriTheme}>
-          <NavigationContainer>
-            <Stack.Navigator
-              initialRouteName={PlaceholderScreenName}
-              headerMode="none"
-            >
-              {isLoggedIn ? (
-                <>
-                  <Stack.Screen name={MainScreenName} component={MainScreen} />
-                  <Stack.Screen
-                    name={SearchUsersScreenName}
-                    component={SearchUsersScreen}
-                  />
-                  <Stack.Screen name={UserScreenName} component={UserScreen} />
-                  <Stack.Screen name={ChatScreenName} component={ChatScreen} />
-                  <Stack.Screen
-                    name={InterestsScreenName}
-                    component={InterestsScreen}
-                  />
-                  <Stack.Screen
-                    name={AvatarScreenName}
-                    component={AvatarScreen}
-                  />
-                  <Stack.Screen
-                    name={EditProfileScreenName}
-                    component={EditProfileScreen}
-                  />
-                </>
-              ) : (
-                <>
-                  <Stack.Screen
-                    name={PlaceholderScreenName}
-                    component={PlaceholderScreen}
-                  />
-                  <Stack.Screen name={AuthScreenName} component={AuthScreen} />
-                </>
-              )}
-            </Stack.Navigator>
-          </NavigationContainer>
+          <PortalProvider>
+
+            <NavigationContainer>
+              <Stack.Navigator
+                initialRouteName={PlaceholderScreenName}
+                headerMode="none"
+              >
+                {isLoggedIn ? (
+                  <>
+                    <Stack.Screen name={MainScreenName} component={MainScreen} />
+                    <Stack.Screen
+                      name={SearchUsersScreenName}
+                      component={SearchUsersScreen}
+                    />
+                    <Stack.Screen name={UserScreenName} component={UserScreen} />
+                    <Stack.Screen name={ChatScreenName} component={ChatScreen} />
+                    <Stack.Screen
+                      name={InterestsScreenName}
+                      component={InterestsScreen}
+                    />
+                    <Stack.Screen
+                      name={AvatarScreenName}
+                      component={AvatarScreen}
+                    />
+                    <Stack.Screen
+                      name={EditProfileScreenName}
+                      component={EditProfileScreen}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Stack.Screen
+                      name={PlaceholderScreenName}
+                      component={PlaceholderScreen}
+                    />
+                    <Stack.Screen name={AuthScreenName} component={AuthScreen} />
+                  </>
+                )}
+              </Stack.Navigator>
+            </NavigationContainer>
+          </PortalProvider>
         </ApplicationProvider>
       </ApolloProvider>
     </>

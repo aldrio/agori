@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styles from './styles'
 import { View } from 'react-native'
-import { Input, Button, Spinner } from '@ui-kitten/components'
+import {
+  Input,
+  Button,
+  Spinner,
+} from '@ui-kitten/components'
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import {
@@ -10,6 +14,9 @@ import {
   ProfileFormFragment,
 } from 'types/apollo-schema-types'
 import { FormItem } from 'components/FormItem'
+import { BlackPortal } from 'react-native-portal'
+import { EditProfileScreenName } from 'screens/EditProfile'
+import { TopNavigationSaveButton } from 'components/TopNavigationSaveButton'
 
 export const ProfileFormGqlFragment = gql`
   fragment ProfileFormFragment on User {
@@ -39,18 +46,13 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ profile }) => {
     `
   )
 
-  const [displayName, setDisplayName] = useState('')
+  const [displayName, setDisplayName] = useState(profile.displayName)
   const [displayNameError, setDisplayNameError] = useState<string | null>(null)
   const displayNameInputRef = useRef<Input>(null)
 
-  const [bio, setBio] = useState('')
+  const [bio, setBio] = useState(profile.bio || '')
   const [bioError, setBioError] = useState<string | null>(null)
   const bioInputRef = useRef<Input>(null)
-
-  useEffect(() => {
-    setDisplayName(profile.displayName)
-    setBio(profile.bio || '')
-  }, [JSON.stringify(profile)])
 
   const submit = () => {
     let errors = false
@@ -121,6 +123,13 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ profile }) => {
       >
         Save
       </Button>
+      {/* Show header save button on edit profile screen */}
+      <BlackPortal name={EditProfileScreenName}>
+        <TopNavigationSaveButton
+          loading={loading}
+          onPress={submit}
+        />
+      </BlackPortal>
     </View>
   )
 }

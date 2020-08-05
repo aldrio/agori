@@ -53,6 +53,7 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
       onRefresh={refetch}
       loading={loading}
       error={error?.message}
+      optionsKey={EditProfileScreenName}
     >
       {body}
     </Screen>

@@ -19,6 +19,7 @@ import {
   StatusBar,
 } from 'react-native'
 import { agoriTheme } from 'utils/theme'
+import { WhitePortal } from 'react-native-portal'
 
 const CloseIcon = (props?: Partial<ImageProps>): ReactElement => (
   <Icon {...props} name="close" />
@@ -39,6 +40,13 @@ export type ScreenProps = {
   onRefresh?: () => void
   hideAccountAction?: boolean
   noScroll?: boolean
+
+  /**
+   * A key to consume with a portal for more options
+   *
+   * Will cause renderAccessoryRight to be ignored when something is rendered through the portal
+   */
+  optionsKey?: string
 }
 export const Screen: React.FC<ScreenProps> = ({
   children,
@@ -52,6 +60,7 @@ export const Screen: React.FC<ScreenProps> = ({
   renderAccessoryRight,
   onRefresh,
   noScroll = false,
+  optionsKey,
 }) => {
   const navigation = useNavigation()
 
@@ -103,7 +112,15 @@ export const Screen: React.FC<ScreenProps> = ({
         subtitle={subTitle}
         accessoryLeft={renderAccessoryLeft}
         accessoryRight={() => {
-          return <>{renderAccessoryRight && renderAccessoryRight()}</>
+          if (optionsKey) {
+            return (
+              <WhitePortal name={optionsKey}>
+                {renderAccessoryRight && renderAccessoryRight()}
+              </WhitePortal>
+            )
+          } else {
+            return <>{renderAccessoryRight && renderAccessoryRight()}</>
+          }
         }}
       />
       <Divider />
