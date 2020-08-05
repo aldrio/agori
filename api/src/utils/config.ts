@@ -11,7 +11,7 @@ export type Configuration = {
     port: number
   }
 
-  keycloak: {
+  keycloak?: {
     realmUrl: string
     clientId: string
   }
@@ -38,10 +38,12 @@ const Config: Configuration = {
     port: parseInt(process.env.API_WEB_SERVER_PORT || '8080'),
   },
 
-  keycloak: {
-    realmUrl: process.env.API_KEYCLOAK_REALM_ENDPOINT!,
-    clientId: process.env.API_KEYCLOAK_CLIENT_ID!,
-  },
+  keycloak: process.env.API_KEYCLOAK_REALM_ENDPOINT
+    ? {
+        realmUrl: process.env.API_KEYCLOAK_REALM_ENDPOINT!,
+        clientId: process.env.API_KEYCLOAK_CLIENT_ID!,
+      }
+    : undefined,
 }
 
 export default Config
