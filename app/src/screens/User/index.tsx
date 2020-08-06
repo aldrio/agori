@@ -1,15 +1,20 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import styles from './styles'
 import { RootStackParamList } from 'App'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RouteProp } from '@react-navigation/native'
 import { Screen } from 'components/Screen'
-import { Text, Button, Divider } from '@ui-kitten/components'
+import { Text, Button, useTheme } from '@ui-kitten/components'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { UserQuery, UserQueryVariables } from 'types/apollo-schema-types'
 import { Chip } from 'components/Chip'
-import { Alert, View } from 'react-native'
+import { Alert, View, useWindowDimensions } from 'react-native'
+import { AvatarDesign } from 'components/AvatarDesign'
+import { AvatarDesignData } from 'components/AvatarDesign/pieces'
+import { Section } from 'components/Section'
+import { BlackPortal } from 'react-native-portal'
+import { TopNavigationEditButton } from 'components/TopNavigationEditButton'
 
 export const UserScreenName = 'UserScreen'
 export type UserScreenParams = {
@@ -35,6 +40,8 @@ export const UserScreen: React.FC<ProfileProps> = ({ navigation, route }) => {
         user(id: $userId) {
           id
           displayName
+          avatarData
+          bio
           interests {
             id
             label
@@ -52,14 +59,48 @@ export const UserScreen: React.FC<ProfileProps> = ({ navigation, route }) => {
     { variables: { userId: route.params.userId } }
   )
 
+  const avatarDesign = useMemo<AvatarDesignData | null>(() => {
+    if (data?.user.avatarData) {
+      return JSON.parse(data.user.avatarData) as AvatarDesignData
+    } else {
+      return null
+    }
+  }, [data?.user.avatarData])
+
+  const theme = useTheme()
+  const { width, height } = useWindowDimensions()
+
   let body = null
   if (data) {
+    const isOwnProfile = data.me.id === data.user.id
     const { user } = data
+    const size = Math.min(height - 500, width * 0.5)
+
     body = (
       <>
-        <Text category="h3">{user.displayName}</Text>
-        <Text>{JSON.stringify(data.user)}</Text>
+        {isOwnProfile && (
+          <BlackPortal name={UserScreenName}>
+            <TopNavigationEditButton
+              onPress={() => navigation.navigate('EditProfileScreen', {})}
+            />
+          </BlackPortal>
+        )}
+        <View
+          style={[
+            styles.header,
+            { backgroundColor: theme['color-primary-100'] },
+          ]}
+        >
+          {avatarDesign ? (
+            <AvatarDesign
+              size={size}
+              design={avatarDesign}
+              avatarStyle="Circle"
+            />
+          ) : null}
+        </View>
         <Button
+          disabled={isOwnProfile}
           onPress={() => {
             navigation.navigate('ChatScreen', { userId: user.id })
           }}
@@ -67,9 +108,17 @@ export const UserScreen: React.FC<ProfileProps> = ({ navigation, route }) => {
           Chat
         </Button>
 
-        <Divider />
-        <View>
-          <Text category="h6">Interests</Text>
+        <Section title={`About ${user.displayName}`} topDivider={false}>
+          {user.bio ? (
+            <Text>{user.bio}</Text>
+          ) : (
+            <Text appearance="hint">
+              {user.displayName} hasn't written about themselves...
+            </Text>
+          )}
+        </Section>
+
+        <Section title="Interests" topDivider={false}>
           <View style={styles.interestList}>
             {user.interests.map((interest) => {
               const isMatch = !!data.me.interests.find(
@@ -78,6 +127,7 @@ export const UserScreen: React.FC<ProfileProps> = ({ navigation, route }) => {
 
               return (
                 <Chip
+                  key={interest.id}
                   label={interest.label}
                   onLongPress={() =>
                     Alert.alert(interest.description || 'No description')
@@ -87,8 +137,7 @@ export const UserScreen: React.FC<ProfileProps> = ({ navigation, route }) => {
               )
             })}
           </View>
-          <Divider />
-        </View>
+        </Section>
       </>
     )
   }
@@ -100,6 +149,7 @@ export const UserScreen: React.FC<ProfileProps> = ({ navigation, route }) => {
       onRefresh={refetch}
       loading={loading}
       error={error?.message}
+      optionsKey={UserScreenName}
     >
       {body}
     </Screen>

@@ -16,18 +16,23 @@ export * from './Piece'
 export type AvatarDesignProps = {
   size: number
   design: AvatarDesignData
+  avatarStyle?: 'Transparent' | 'Circle'
 }
 
 /**
  * Renders an avatar design in real time
  */
-export const AvatarDesign: React.FC<AvatarDesignProps> = ({ size, design }) => {
+export const AvatarDesign: React.FC<AvatarDesignProps> = ({
+  size,
+  design,
+  avatarStyle = 'Transparent',
+}) => {
   const props = toAvataaarsProps(design)
 
   return (
     <Avatar
       size={size}
-      avatarStyle="Tranpadrent"
+      avatarStyle={avatarStyle}
       {...props}
       style={undefined}
     />

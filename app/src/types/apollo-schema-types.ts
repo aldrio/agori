@@ -372,11 +372,10 @@ export interface UserQuery_user_interests {
 export interface UserQuery_user {
   __typename: "User";
   id: string;
-  avatarData: string | null;
-  avatarThumbnailUrl: string | null;
   displayName: string;
-  interests: UserQuery_user_interests[];
+  avatarData: string | null;
   bio: string | null;
+  interests: UserQuery_user_interests[];
 }
 
 export interface UserQuery_me_interests {
