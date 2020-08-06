@@ -24,6 +24,9 @@ import { TrxContext } from 'server/middleware/transaction'
 import { UserCtx, isAdmin } from 'server/create-context'
 import logger from 'utils/logger'
 import { ValidationError } from 'apollo-server-koa'
+import { renderAvatarToPngBuffer } from 'utils/avatar-renderer'
+import { AvatarDesignData } from 'utils/avatar-renderer/pieces'
+import { uploadBuffer } from 'utils/media'
 
 @InputType({ description: 'A new user input' })
 class NewUserInput {
@@ -55,6 +58,11 @@ class EditUserInput {
   @Trim()
   @MaxLength(1000)
   bio?: string | null
+
+  @Field(() => String, { nullable: true })
+  @Trim()
+  @MaxLength(1000)
+  avatarData?: string
 }
 
 @ArgsType()
@@ -112,14 +120,30 @@ export default class UserResolver {
     @Arg('editUser') editUser: EditUserInput,
     @Ctx() ctx: TrxContext & UserCtx
   ): Promise<User> {
+    const patch: Partial<User> = { ...editUser }
+
     if (editUser.displayName === null) {
       throw new ValidationError('displayName cannot be null')
     }
 
-    logger.info('editing user', { userId, editUser })
+    if (editUser.avatarData) {
+      // TODO: validate avatarData
+
+      // Render and upload thumbnail
+      const design = JSON.parse(editUser.avatarData) as AvatarDesignData
+      const buffer = await renderAvatarToPngBuffer(design, 300)
+
+      patch.avatarThumbnailUrl = await uploadBuffer(
+        `avatars/${userId}/${new Date().getTime()}.png`,
+        buffer,
+        'image/png'
+      )
+    }
+
+    logger.info({ userId, editUser }, 'editing user')
     return await User.query(await ctx.trx).patchAndFetchById(
       ctx.user!.id,
-      editUser
+      patch
     )
   }
 

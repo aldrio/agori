@@ -80,4 +80,10 @@ export default class User extends StandardModel {
 
   @Field(() => String, { nullable: true })
   bio!: string | null
+
+  @Field(() => String, { nullable: true })
+  avatarData!: string | null
+
+  @Field(() => String, { nullable: true })
+  avatarThumbnailUrl!: string | null
 }

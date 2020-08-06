@@ -15,6 +15,13 @@ export type Configuration = {
     realmUrl: string
     clientId: string
   }
+
+  s3: {
+    endpoint?: string
+    accessKey: string
+    secretKey: string
+    bucket: string
+  }
 }
 
 const Config: Configuration = {
@@ -44,6 +51,13 @@ const Config: Configuration = {
         clientId: process.env.API_KEYCLOAK_CLIENT_ID!,
       }
     : undefined,
+
+  s3: {
+    endpoint: process.env.API_S3_ENDPOINT,
+    accessKey: process.env.API_S3_ACCESS_KEY!,
+    secretKey: process.env.API_S3_SECRET_KEY!,
+    bucket: process.env.API_S3_BUCKET!,
+  },
 }
 
 export default Config
