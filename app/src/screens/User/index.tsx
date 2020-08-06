@@ -16,6 +16,7 @@ import { Section } from 'components/Section'
 import { BlackPortal } from 'react-native-portal'
 import { TopNavigationEditButton } from 'components/TopNavigationEditButton'
 import { PersonalNote } from 'components/PersonalNote'
+import { UnknownAvatarDesign } from 'components/UnknownAvatarDesign'
 
 export const UserScreenName = 'UserScreen'
 export type UserScreenParams = {
@@ -98,7 +99,7 @@ export const UserScreen: React.FC<ProfileProps> = ({ navigation, route }) => {
               design={avatarDesign}
               avatarStyle="Circle"
             />
-          ) : null}
+          ) : <UnknownAvatarDesign size={size} />}
         </View>
         <Button
           disabled={isOwnProfile}
