@@ -335,10 +335,6 @@ export function toAvataaarsType(pieceId: PieceId): string {
     eyes: 'eyes',
     eyebrows: 'eyebrows',
     mouth: 'mouth',
-    // eyes
-    // eyebrows
-    // mouth
-    // nose
   }
 
   return map[pieceId]

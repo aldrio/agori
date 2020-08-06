@@ -4,6 +4,29 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: EditAvatarMutation
+// ====================================================
+
+export interface EditAvatarMutation_editMe {
+  __typename: "User";
+  id: string;
+  avatarData: string | null;
+}
+
+export interface EditAvatarMutation {
+  editMe: EditAvatarMutation_editMe;
+}
+
+export interface EditAvatarMutationVariables {
+  avatarData: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: InterestsToggleQuery
 // ====================================================
 
@@ -239,6 +262,25 @@ export interface SendMessageMutationVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: AvatarQuery
+// ====================================================
+
+export interface AvatarQuery_me {
+  __typename: "User";
+  id: string;
+  avatarData: string | null;
+}
+
+export interface AvatarQuery {
+  me: AvatarQuery_me;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: ProfileQuery
 // ====================================================
 
@@ -330,6 +372,8 @@ export interface UserQuery_user_interests {
 export interface UserQuery_user {
   __typename: "User";
   id: string;
+  avatarData: string | null;
+  avatarThumbnailUrl: string | null;
   displayName: string;
   interests: UserQuery_user_interests[];
   bio: string | null;
@@ -383,6 +427,21 @@ export interface MessageFragment {
   createdAt: any;
   updatedAt: any;
   content: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: AvatarFormFragment
+// ====================================================
+
+export interface AvatarFormFragment {
+  __typename: "User";
+  id: string;
+  avatarData: string | null;
 }
 
 /* tslint:disable */

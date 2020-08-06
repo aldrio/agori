@@ -32,10 +32,10 @@ import {
   InterestsScreen,
 } from 'screens/Interests'
 import {
-  AvatarScreenName,
-  AvatarScreenParams,
-  AvatarScreen,
-} from 'screens/Avatar'
+  EditAvatarScreenName,
+  EditAvatarScreenParams,
+  EditAvatarScreen,
+} from 'screens/EditAvatar'
 import {
   EditProfileScreenName,
   EditProfileScreenParams,
@@ -51,7 +51,7 @@ export type RootStackParamList = {
   [UserScreenName]: UserScreenParams
   [ChatScreenName]: ChatScreenParams
   [InterestsScreenName]: InterestsScreenParams
-  [AvatarScreenName]: AvatarScreenParams
+  [EditAvatarScreenName]: EditAvatarScreenParams
   [EditProfileScreenName]: EditProfileScreenParams
 }
 const Stack = createStackNavigator<RootStackParamList>()
@@ -90,8 +90,8 @@ export const App: React.FC<{}> = () => {
                       component={InterestsScreen}
                     />
                     <Stack.Screen
-                      name={AvatarScreenName}
-                      component={AvatarScreen}
+                      name={EditAvatarScreenName}
+                      component={EditAvatarScreen}
                     />
                     <Stack.Screen
                       name={EditProfileScreenName}
