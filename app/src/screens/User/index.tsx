@@ -15,6 +15,7 @@ import { AvatarDesignData } from 'components/AvatarDesign/pieces'
 import { Section } from 'components/Section'
 import { BlackPortal } from 'react-native-portal'
 import { TopNavigationEditButton } from 'components/TopNavigationEditButton'
+import { PersonalNote } from 'components/PersonalNote'
 
 export const UserScreenName = 'UserScreen'
 export type UserScreenParams = {
@@ -137,6 +138,13 @@ export const UserScreen: React.FC<ProfileProps> = ({ navigation, route }) => {
               )
             })}
           </View>
+        </Section>
+
+        <Section title="Note">
+          <PersonalNote id={user.id} />
+          <Text appearance="hint" category="c1">
+            Keep a simple reminder. Only you can see this.
+          </Text>
         </Section>
       </>
     )
