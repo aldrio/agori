@@ -4,29 +4,6 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: EditAvatarMutation
-// ====================================================
-
-export interface EditAvatarMutation_editMe {
-  __typename: "User";
-  id: string;
-  avatarData: string | null;
-}
-
-export interface EditAvatarMutation {
-  editMe: EditAvatarMutation_editMe;
-}
-
-export interface EditAvatarMutationVariables {
-  avatarData: string;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL query operation: InterestsToggleQuery
 // ====================================================
 
@@ -105,31 +82,6 @@ export interface RemoveInterestMutation {
 
 export interface RemoveInterestMutationVariables {
   interestId: string;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: EditProfileMutation
-// ====================================================
-
-export interface EditProfileMutation_editMe {
-  __typename: "User";
-  id: string;
-  displayName: string;
-  bio: string | null;
-}
-
-export interface EditProfileMutation {
-  editMe: EditProfileMutation_editMe;
-}
-
-export interface EditProfileMutationVariables {
-  displayName?: string | null;
-  bio?: string | null;
 }
 
 /* tslint:disable */
@@ -269,6 +221,7 @@ export interface AvatarQuery_me {
   __typename: "User";
   id: string;
   avatarData: string | null;
+  avatarThumbnailUrl: string | null;
 }
 
 export interface AvatarQuery {
@@ -284,11 +237,20 @@ export interface AvatarQuery {
 // GraphQL query operation: ProfileQuery
 // ====================================================
 
+export interface ProfileQuery_me_interests {
+  __typename: "Interest";
+  id: string;
+  label: string;
+}
+
 export interface ProfileQuery_me {
   __typename: "User";
   id: string;
+  avatarData: string | null;
+  avatarThumbnailUrl: string | null;
   displayName: string;
   bio: string | null;
+  interests: ProfileQuery_me_interests[];
 }
 
 export interface ProfileQuery {
@@ -404,6 +366,64 @@ export interface UserQueryVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: EditProfileMutation
+// ====================================================
+
+export interface EditProfileMutation_editMe_interests {
+  __typename: "Interest";
+  id: string;
+  label: string;
+}
+
+export interface EditProfileMutation_editMe {
+  __typename: "User";
+  id: string;
+  avatarData: string | null;
+  avatarThumbnailUrl: string | null;
+  displayName: string;
+  bio: string | null;
+  interests: EditProfileMutation_editMe_interests[];
+}
+
+export interface EditProfileMutation {
+  editMe: EditProfileMutation_editMe;
+}
+
+export interface EditProfileMutationVariables {
+  displayName?: string | null;
+  bio?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: EditAvatarMutation
+// ====================================================
+
+export interface EditAvatarMutation_editMe {
+  __typename: "User";
+  id: string;
+  avatarData: string | null;
+  avatarThumbnailUrl: string | null;
+}
+
+export interface EditAvatarMutation {
+  editMe: EditAvatarMutation_editMe;
+}
+
+export interface EditAvatarMutationVariables {
+  avatarData: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL fragment: MessageFragment
 // ====================================================
 
@@ -434,21 +454,6 @@ export interface MessageFragment {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL fragment: AvatarFormFragment
-// ====================================================
-
-export interface AvatarFormFragment {
-  __typename: "User";
-  id: string;
-  avatarData: string | null;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
 // GraphQL fragment: InterestToggleFragment
 // ====================================================
 
@@ -468,11 +473,36 @@ export interface InterestToggleFragment {
 // GraphQL fragment: ProfileFormFragment
 // ====================================================
 
+export interface ProfileFormFragment_interests {
+  __typename: "Interest";
+  id: string;
+  label: string;
+}
+
 export interface ProfileFormFragment {
   __typename: "User";
   id: string;
+  avatarData: string | null;
+  avatarThumbnailUrl: string | null;
   displayName: string;
   bio: string | null;
+  interests: ProfileFormFragment_interests[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: AvatarFormFragment
+// ====================================================
+
+export interface AvatarFormFragment {
+  __typename: "User";
+  id: string;
+  avatarData: string | null;
+  avatarThumbnailUrl: string | null;
 }
 
 /* tslint:disable */

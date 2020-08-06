@@ -99,7 +99,9 @@ export const UserScreen: React.FC<ProfileProps> = ({ navigation, route }) => {
               design={avatarDesign}
               avatarStyle="Circle"
             />
-          ) : <UnknownAvatarDesign size={size} />}
+          ) : (
+            <UnknownAvatarDesign size={size} />
+          )}
         </View>
         <Button
           disabled={isOwnProfile}

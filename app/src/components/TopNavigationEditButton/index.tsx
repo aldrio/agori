@@ -15,7 +15,7 @@ export const TopNavigationEditButton: React.FC<TopNavigationEditButtonProps> = (
   return (
     <TopNavigationAction
       disabled={disabled}
-      icon={EditIcon }
+      icon={EditIcon}
       onPress={onPress}
     />
   )

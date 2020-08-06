@@ -43,7 +43,8 @@ export const EditProfileScreen: React.FC<EditProfileProps> = ({
 
   let body
   if (data) {
-    body = <ProfileForm profile={data.me} />
+    const onCompleted = () => navigation.goBack()
+    body = <ProfileForm profile={data.me} onCompleted={onCompleted} />
   }
 
   return (

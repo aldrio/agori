@@ -70,7 +70,6 @@ export const App: React.FC<{}> = () => {
       <ApolloProvider client={apolloClient}>
         <ApplicationProvider {...eva} theme={agoriTheme}>
           <PortalProvider>
-
             <NavigationContainer>
               <Stack.Navigator
                 initialRouteName={PlaceholderScreenName}
@@ -78,13 +77,22 @@ export const App: React.FC<{}> = () => {
               >
                 {isLoggedIn ? (
                   <>
-                    <Stack.Screen name={MainScreenName} component={MainScreen} />
+                    <Stack.Screen
+                      name={MainScreenName}
+                      component={MainScreen}
+                    />
                     <Stack.Screen
                       name={SearchUsersScreenName}
                       component={SearchUsersScreen}
                     />
-                    <Stack.Screen name={UserScreenName} component={UserScreen} />
-                    <Stack.Screen name={ChatScreenName} component={ChatScreen} />
+                    <Stack.Screen
+                      name={UserScreenName}
+                      component={UserScreen}
+                    />
+                    <Stack.Screen
+                      name={ChatScreenName}
+                      component={ChatScreen}
+                    />
                     <Stack.Screen
                       name={InterestsScreenName}
                       component={InterestsScreen}
@@ -104,7 +112,10 @@ export const App: React.FC<{}> = () => {
                       name={PlaceholderScreenName}
                       component={PlaceholderScreen}
                     />
-                    <Stack.Screen name={AuthScreenName} component={AuthScreen} />
+                    <Stack.Screen
+                      name={AuthScreenName}
+                      component={AuthScreen}
+                    />
                   </>
                 )}
               </Stack.Navigator>

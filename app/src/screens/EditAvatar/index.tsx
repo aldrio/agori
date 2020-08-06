@@ -25,7 +25,10 @@ export type EditAvatarProps = {
   route: EditAvatarScreenRouteProp
 }
 
-export const EditAvatarScreen: React.FC<EditAvatarProps> = ({ navigation, route }) => {
+export const EditAvatarScreen: React.FC<EditAvatarProps> = ({
+  navigation,
+  route,
+}) => {
   const { data, loading, error } = useQuery<AvatarQuery>(
     gql`
       query AvatarQuery {
@@ -39,10 +42,10 @@ export const EditAvatarScreen: React.FC<EditAvatarProps> = ({ navigation, route 
     { partialRefetch: true, fetchPolicy: 'network-only' }
   )
 
-
   let body
   if (data) {
-    body = <AvatarForm data={data.me} />
+    const onCompleted = () => navigation.goBack()
+    body = <AvatarForm data={data.me} onCompleted={onCompleted} />
   }
 
   return (

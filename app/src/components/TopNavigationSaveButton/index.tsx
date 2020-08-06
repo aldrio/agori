@@ -18,11 +18,7 @@ export const TopNavigationSaveButton: React.FC<TopNavigationSaveButtonProps> = (
   return (
     <TopNavigationAction
       disabled={loading || disabled}
-      icon={
-        loading
-          ? LoadingIcon
-          : SaveIcon
-      }
+      icon={loading ? LoadingIcon : SaveIcon}
       onPress={onPress}
     />
   )
