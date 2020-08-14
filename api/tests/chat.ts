@@ -1,6 +1,9 @@
 import { gql } from 'apollo-server-koa'
 import { v4 as uuid } from 'uuid'
-import { createUserTestClient, createAdminTestClient } from 'tests/utils/test-client'
+import {
+  createUserTestClient,
+  createAdminTestClient,
+} from 'tests/utils/test-client'
 import testDatabaseConnection from 'tests/utils/test-database-connection'
 
 beforeAll(async () => {

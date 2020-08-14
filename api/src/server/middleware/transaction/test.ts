@@ -18,7 +18,6 @@ afterAll(async () => {
   await testDatabaseConnection.destroyDatabase()
 })
 
-
 @Resolver()
 class SomethingDoer {
   @Query((returns) => Boolean)

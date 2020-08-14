@@ -56,7 +56,7 @@ export type Authenticated = {
 
 /**
  * Returns authentication data or throws
- * 
+ *
  * If KeyCloak isn't configured and it's not production mode this will allow
  * the token to be a JSON string containing a user id, roles array, etc.
  *
