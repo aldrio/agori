@@ -22,6 +22,7 @@ import { TransactionPlugin } from './middleware/transaction'
 import { jwtAuth, koaAuth } from './middleware/auth'
 import { Sanitizer } from './middleware/sanitizer'
 import { execute, subscribe, GraphQLSchema } from 'graphql'
+import UserSearchResultResolver from 'resolvers/search'
 
 export function createSchema(logger: boolean = true): GraphQLSchema {
   return buildSchemaSync({
@@ -31,6 +32,7 @@ export function createSchema(logger: boolean = true): GraphQLSchema {
       MessageResolver,
       ChatUserResolver,
       InterestResolver,
+      UserSearchResultResolver,
     ],
     globalMiddlewares: [...(logger ? [Logger] : []), MapTypes, Sanitizer],
     authChecker,

@@ -1,11 +1,11 @@
 import React from 'react'
 import styles from './styles'
-import { View, Image } from 'react-native'
+import { Image } from 'react-native'
 
 const unknown = require('./unknown.png')
 
 export type UnknownAvatarDesignProps = {
-  size: number
+  size: string | number
 }
 
 /**
@@ -15,12 +15,10 @@ export const UnknownAvatarDesign: React.FC<UnknownAvatarDesignProps> = ({
   size,
 }) => {
   return (
-    <View style={[styles.unknownAvatarDesign]}>
-      <Image
-        source={unknown}
-        resizeMode="contain"
-        style={{ width: size, height: size }}
-      />
-    </View>
+    <Image
+      source={unknown}
+      resizeMode="contain"
+      style={{ aspectRatio: 1, width: size, height: undefined }}
+    />
   )
 }

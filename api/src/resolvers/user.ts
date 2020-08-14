@@ -147,8 +147,7 @@ export default class UserResolver {
     )
   }
 
-  // TODO: Make only for admins, users should search
-  @Authorized('USER')
+  @Authorized('ADMIN')
   @Query(() => [User])
   async users(@Args() { skip, take }: UsersArgs): Promise<User[]> {
     const users = await User.query()
