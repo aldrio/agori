@@ -131,10 +131,12 @@ export const Screen: React.FC<ScreenProps> = ({
           style={{ flexGrow: 1 }}
           contentContainerStyle={{ flexGrow: 1 }}
           refreshControl={
-            <RefreshControl
-              refreshing={loading === true}
-              onRefresh={onRefresh}
-            />
+            onRefresh ? (
+              <RefreshControl
+                refreshing={loading === true}
+                onRefresh={onRefresh}
+              />
+            ) : undefined
           }
         >
           {body}

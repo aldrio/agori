@@ -58,8 +58,11 @@ export const AvatarDesginCustomizer: React.FC<AvatarDesignCustomizerProps> = ({
 
   // Calculate piece sizing
   const windowWidth = useWindowDimensions().width
-  const PER_ROW = 3
-  const pieceWidth = (windowWidth - 24) / PER_ROW - 12
+  // 3 columns on bigger screens, 2 on smaller
+  const columns = Math.floor(windowWidth / 100)
+
+  const pieceWidth = (windowWidth - 24) / columns - 12
+  const modifierPieceWidth = ((windowWidth - 24) / 3 - 12) * 0.3
 
   const pieceId = TopLevelPieceTypeIds[page]
   const piece = Pieces[pieceId]
@@ -113,7 +116,7 @@ export const AvatarDesginCustomizer: React.FC<AvatarDesignCustomizerProps> = ({
                     })
                   }
                   active={variant.id === design[modifierPieceId]}
-                  size={pieceWidth * 0.3}
+                  size={modifierPieceWidth}
                   design={design}
                   pieceId={pieceId}
                   variantId={selectedPieceVariantId}
