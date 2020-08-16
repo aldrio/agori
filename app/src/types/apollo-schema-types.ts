@@ -424,6 +424,24 @@ export interface UserQueryVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: CurrentUserScreenQuery
+// ====================================================
+
+export interface CurrentUserScreenQuery_me {
+  __typename: "User";
+  id: string;
+}
+
+export interface CurrentUserScreenQuery {
+  me: CurrentUserScreenQuery_me;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL fragment: MessageFragment
 // ====================================================
 

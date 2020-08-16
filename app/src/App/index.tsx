@@ -4,13 +4,14 @@ import auth from 'utils/auth'
 
 import { ApolloProvider } from '@apollo/react-hooks'
 
-import { ApplicationProvider, IconRegistry } from '@ui-kitten/components'
+import { ApplicationProvider, IconRegistry, Text } from '@ui-kitten/components'
 import * as eva from '@eva-design/eva'
 import { agoriTheme } from 'utils/theme'
 import { EvaIconsPack } from '@ui-kitten/eva-icons'
 
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {
   PlaceholderScreenName,
   PlaceholderScreen,
@@ -24,7 +25,14 @@ import {
   SearchUsersScreen,
 } from 'screens/SearchUsers'
 import apolloClient from 'utils/apollo-client'
-import { UserScreenName, UserScreenParams, UserScreen } from 'screens/User'
+import {
+  UserScreenName,
+  UserScreenParams,
+  UserScreen,
+  CurrentUserScreenName,
+  CurrentUserScreenParams,
+  CurrentUserScreen,
+} from 'screens/User'
 import { ChatScreenName, ChatScreenParams, ChatScreen } from 'screens/Chat'
 import {
   InterestsScreenName,
@@ -42,19 +50,40 @@ import {
   EditProfileScreen,
 } from 'screens/EditProfile'
 import { PortalProvider } from 'react-native-portal'
+import { MainTabs as MainTabsComponent } from 'components/MainTabs'
 
 export type RootStackParamList = {
+  MainTabsScreen: {}
   [PlaceholderScreenName]: PlaceholderScreenParams
   [AuthScreenName]: AuthScreenParams
   [MainScreenName]: MainScreenParams
   [SearchUsersScreenName]: SearchUsersScreenParams
   [UserScreenName]: UserScreenParams
+  [CurrentUserScreenName]: CurrentUserScreenParams
   [ChatScreenName]: ChatScreenParams
   [InterestsScreenName]: InterestsScreenParams
   [EditAvatarScreenName]: EditAvatarScreenParams
   [EditProfileScreenName]: EditProfileScreenParams
 }
+
 const Stack = createStackNavigator<RootStackParamList>()
+const MainTabs = createBottomTabNavigator<RootStackParamList>()
+
+const MainTabsScreen = () => {
+  return (
+    <MainTabs.Navigator tabBar={MainTabsComponent}>
+      <MainTabs.Screen name={MainScreenName} component={MainScreen} />
+      <MainTabs.Screen
+        name={SearchUsersScreenName}
+        component={SearchUsersScreen}
+      />
+      <MainTabs.Screen
+        name={CurrentUserScreenName}
+        component={CurrentUserScreen}
+      />
+    </MainTabs.Navigator>
+  )
+}
 
 export const App: React.FC<{}> = () => {
   const isLoading = useObserver(() => auth.loading)
@@ -78,12 +107,8 @@ export const App: React.FC<{}> = () => {
                 {isLoggedIn ? (
                   <>
                     <Stack.Screen
-                      name={MainScreenName}
-                      component={MainScreen}
-                    />
-                    <Stack.Screen
-                      name={SearchUsersScreenName}
-                      component={SearchUsersScreen}
+                      name="MainTabsScreen"
+                      component={MainTabsScreen}
                     />
                     <Stack.Screen
                       name={UserScreenName}

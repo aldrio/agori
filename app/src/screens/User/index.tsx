@@ -7,7 +7,11 @@ import { Screen } from 'components/Screen'
 import { Text, Button, useTheme } from '@ui-kitten/components'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import { UserQuery, UserQueryVariables } from 'types/apollo-schema-types'
+import {
+  UserQuery,
+  UserQueryVariables,
+  CurrentUserScreenQuery,
+} from 'types/apollo-schema-types'
 import { Chip } from 'components/Chip'
 import { Alert, View, useWindowDimensions } from 'react-native'
 import { AvatarDesign } from 'components/AvatarDesign'
@@ -31,8 +35,13 @@ type UserScreenRouteProp = RouteProp<RootStackParamList, typeof UserScreenName>
 export type ProfileProps = {
   navigation: UserScreenNavigationProp
   route: UserScreenRouteProp
+  userId?: string
 }
-export const UserScreen: React.FC<ProfileProps> = ({ navigation, route }) => {
+export const UserScreen: React.FC<ProfileProps> = ({
+  navigation,
+  route,
+  userId,
+}) => {
   const { data, loading, error, refetch } = useQuery<
     UserQuery,
     UserQueryVariables
@@ -58,7 +67,7 @@ export const UserScreen: React.FC<ProfileProps> = ({ navigation, route }) => {
         }
       }
     `,
-    { variables: { userId: route.params.userId } }
+    { variables: { userId: userId || route.params.userId } }
   )
 
   const avatarDesign = useMemo<AvatarDesignData | null>(() => {
@@ -156,7 +165,7 @@ export const UserScreen: React.FC<ProfileProps> = ({ navigation, route }) => {
   return (
     <Screen
       title={data?.user.displayName || 'User'}
-      back
+      back={!userId}
       onRefresh={refetch}
       loading={loading}
       error={error?.message}
@@ -164,5 +173,47 @@ export const UserScreen: React.FC<ProfileProps> = ({ navigation, route }) => {
     >
       {body}
     </Screen>
+  )
+}
+
+export const CurrentUserScreenName = 'CurrentUserScreen'
+export type CurrentUserScreenParams = {}
+type CurrentUserScreenNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  typeof CurrentUserScreenName
+>
+type CurrentUserScreenRouteProp = RouteProp<
+  RootStackParamList,
+  typeof CurrentUserScreenName
+>
+
+export type CurrentUserProps = {
+  navigation: CurrentUserScreenNavigationProp
+  route: CurrentUserScreenRouteProp
+}
+export const CurrentUserScreen: React.FC<CurrentUserProps> = ({
+  navigation,
+  route,
+}) => {
+  const { data, error, loading } = useQuery<CurrentUserScreenQuery>(
+    gql`
+      query CurrentUserScreenQuery {
+        me {
+          id
+        }
+      }
+    `
+  )
+
+  if (!data) {
+    return null
+  }
+
+  return (
+    <UserScreen
+      navigation={navigation as any}
+      route={route as any}
+      userId={data.me.id}
+    />
   )
 }
