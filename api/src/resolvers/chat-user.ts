@@ -1,7 +1,8 @@
 import { TrxContext } from 'server/middleware/transaction'
-import { Ctx, Resolver, Root, FieldResolver } from 'type-graphql'
+import { Ctx, Resolver, Root, FieldResolver, Int } from 'type-graphql'
 import { UserCtx } from 'server/create-context'
 import { Message, ChatUser, User, Chat } from 'models'
+import dayjs from 'dayjs'
 
 @Resolver(ChatUser)
 export default class ChatUserResolver {
@@ -29,5 +30,20 @@ export default class ChatUserResolver {
     }
 
     return chatUser.chat!
+  }
+
+  @FieldResolver(() => Int)
+  async unreadCount(
+    @Ctx() ctx: TrxContext & UserCtx,
+    @Root() chatUser: ChatUser
+  ): Promise<number> {
+    return await Chat.relatedQuery('messages')
+      .for(chatUser.chatId)
+      .where(
+        'messages.createdAt',
+        '>',
+        (chatUser.lastReadTime || dayjs.unix(0)).toDate()
+      )
+      .resultSize()
   }
 }

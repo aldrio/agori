@@ -3,6 +3,7 @@ import { Model } from 'objection'
 import { Field, ObjectType } from 'type-graphql'
 import path from 'path'
 import { Chat, User, Message } from 'models'
+import { Dayjs } from 'dayjs'
 
 @ObjectType('ChatUser')
 export default class ChatUser extends StandardModel {
@@ -44,4 +45,7 @@ export default class ChatUser extends StandardModel {
   userId!: string
 
   messages?: Message[]
+
+  @Field(() => Date, { nullable: true })
+  lastReadTime?: Dayjs | null
 }

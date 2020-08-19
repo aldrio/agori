@@ -11,6 +11,7 @@ import {
 } from 'type-graphql'
 import { UserCtx, isAdmin } from 'server/create-context'
 import { User, Chat, Message, ChatUser } from 'models'
+import { fn, ref } from 'objection'
 
 @Resolver(Chat)
 export default class ChatResolver {
@@ -68,7 +69,8 @@ export default class ChatResolver {
   @FieldResolver(() => [Message])
   async recentMessages(
     @Ctx() ctx: TrxContext & UserCtx,
-    @Root() chat: Chat
+    @Root() chat: Chat,
+    @Arg('markRead', () => Boolean, { nullable: true }) markRead: boolean = true
   ): Promise<Message[]> {
     const messages = await chat
       .$relatedQuery('messages', await ctx.trx)
@@ -76,6 +78,24 @@ export default class ChatResolver {
       .orderBy('createdAt', 'DESC')
       .limit(30)
 
+    // If logged in and part of this chat set the read status
+    if (markRead && ctx.user && messages.length > 0) {
+      const m = messages[0]
+      // Mark read status up to this message
+      await ChatUser.query(await ctx.trx)
+        .where({
+          userId: ctx.user!.id,
+          chatId: chat.id,
+        })
+        .where(
+          fn.coalesce(ref('lastReadTime'), new Date(0)),
+          '<',
+          m.createdAt.toDate()
+        )
+        .patch({
+          lastReadTime: m.createdAt,
+        })
+    }
     return messages
   }
 
@@ -88,6 +108,18 @@ export default class ChatResolver {
       chat.$fetchGraph('chatUsers.user', { transaction: await ctx.trx })
     }
     return chat.chatUsers!
+  }
+
+  @Authorized('USER')
+  @FieldResolver(() => ChatUser, { nullable: true })
+  async myChatUser(
+    @Ctx() ctx: TrxContext & UserCtx,
+    @Root() chat: Chat
+  ): Promise<ChatUser | null> {
+    // TODO: in the future with very popular chats it may be quicker to do a dedicated query
+    const chatUsers = await this.chatUsers(ctx, chat)
+
+    return chatUsers.find((cu) => cu.id === ctx.user!.id) || null
   }
 
   @Authorized('USER')

@@ -97,6 +97,10 @@ export default class MessageResolver {
       transaction: await ctx.trx,
     })
 
+    await chatUser.$query(await ctx.trx).patch({
+      lastReadTime: message.createdAt,
+    })
+
     await pubSub.publish(`CHAT_${chatId}_NEW_MESSAGE`, message)
     return message
   }
@@ -133,9 +137,20 @@ export default class MessageResolver {
     },
   })
   async newMessageSent(
+    @Ctx() ctx: TrxContext & UserCtx,
     @Root() message: Message,
-    @Arg('chatId', () => ID) _chatId: string
+    @Arg('chatId', () => ID) chatId: string
   ): Promise<Message> {
+    // Mark read status up to this message
+    await ChatUser.query()
+      .where({
+        userId: ctx.user!.id,
+        chatId: chatId,
+      })
+      .patch({
+        lastReadTime: message.createdAt,
+      })
+
     return message
   }
 }
