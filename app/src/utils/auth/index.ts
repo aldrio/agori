@@ -2,6 +2,16 @@ import { AsyncStorage } from 'react-native'
 import Config from 'utils/config'
 import { observable, computed } from 'mobx'
 import { create, persist } from 'mobx-persist'
+import * as AuthSession from 'expo-auth-session'
+import * as WebBrowser from 'expo-web-browser'
+import { agoriTheme } from 'utils/theme'
+
+const BROWSER_OPTIONS: Omit<
+  WebBrowser.WebBrowserOpenOptions,
+  'windowFeatures'
+> = {
+  toolbarColor: agoriTheme['color-primary-100'],
+}
 
 type Tokens = {
   access_token: string
@@ -92,11 +102,34 @@ export class AuthManager {
     this.tokens!.expiresAt = Date.now() + this.tokens!.expires_in * 1000
   }
 
-  login = async (username: string, password: string) => {
-    await this.getTokens('password', {
-      username: username,
-      password: password,
+  login = async () => {
+    const discovery = await AuthSession.fetchDiscoveryAsync(
+      Config.keycloak.realmUrl
+    )
+    const redirectUri = AuthSession.makeRedirectUri({ useProxy: __DEV__ })
+
+    const request = new AuthSession.AuthRequest({
+      clientId: Config.keycloak.clientId,
+      redirectUri: redirectUri,
+      scopes: ['offline_access'],
+      responseType: AuthSession.ResponseType.Code,
+      usePKCE: false,
     })
+
+    const result = await request.promptAsync(discovery, {
+      useProxy: __DEV__,
+      ...BROWSER_OPTIONS,
+    })
+
+    if (result.type === 'success') {
+      const { code } = result.params
+
+      await this.getTokens('authorization_code', {
+        code,
+        redirect_uri: redirectUri,
+        client_id: Config.keycloak.clientId,
+      })
+    }
   }
 
   refresh = async () => {
@@ -106,8 +139,22 @@ export class AuthManager {
   }
 
   logout = async () => {
-    // TODO: Call backend to invalidate refresh token
-    this.tokens = null
+    const discovery = await AuthSession.fetchDiscoveryAsync(
+      Config.keycloak.realmUrl
+    )
+
+    const redirectUri = AuthSession.makeRedirectUri({ useProxy: false })
+    const result = await WebBrowser.openAuthSessionAsync(
+      `${discovery.endSessionEndpoint!}?redirect_uri=${encodeURIComponent(
+        redirectUri
+      )}`,
+      redirectUri,
+      BROWSER_OPTIONS
+    )
+
+    if (result.type === 'success') {
+      this.tokens = null
+    }
   }
 }
 
