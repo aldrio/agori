@@ -12,7 +12,7 @@ import {
   Pieces,
   Piece,
   PieceId,
-} from 'components/AvatarDesign/pieces'
+} from 'avatars'
 import {
   AvatarDesignPiece,
   AvatarDesignPieceProps,

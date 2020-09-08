@@ -396,3 +396,54 @@ export function getRandomAvatarDesignData(): AvatarDesignData {
 
   return design
 }
+
+export type DisplayScale = { scale: number; top: string; left: string }
+
+/** Magical numbers to scale pieces by to make them align nicely for individual display */
+export const DISPLAY_SCALES: { [key: string]: DisplayScale | undefined } = {
+  mouth: {
+    scale: 3.0,
+    top: '-25%',
+    left: '-18%',
+  },
+  eyebrows: {
+    scale: 2.5,
+    top: '35%',
+    left: '-7%',
+  },
+  eyes: {
+    scale: 2.5,
+    top: '20%',
+    left: '-7%',
+  },
+  accessories: {
+    scale: 1.7,
+    top: '-20%',
+    left: '-35%',
+  },
+  skinColor: {
+    scale: 2.0,
+    top: '-50%',
+    left: '-50%',
+  },
+  facialHair: {
+    scale: 1.5,
+    top: '-25%',
+    left: '-25%',
+  },
+  clothesColor: {
+    scale: 2.5,
+    top: '-150%',
+    left: '-75%',
+  },
+  clothesGraphic: {
+    scale: 2.5,
+    top: '-150%',
+    left: '-75%',
+  },
+  facialHairColor: {
+    scale: 2.5,
+    top: '-90%',
+    left: '-75%',
+  },
+}

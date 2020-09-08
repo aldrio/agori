@@ -7,34 +7,30 @@
 
 import React from 'react'
 import styles from './styles'
-
-import { Avatar } from 'react-native-avataaars'
-import { AvatarDesignData, toAvataaarsProps } from './pieces'
+import {
+  renderAvatarToSvg,
+  AvatarDesignProps as InnerAvatarProps,
+} from 'avatars'
+import Image from 'react-native-remote-svg'
 
 export * from './Piece'
 
-export type AvatarDesignProps = {
-  size: number
-  design: AvatarDesignData
-  avatarStyle?: 'Transparent' | 'Circle'
-}
+export type AvatarDesignProps = InnerAvatarProps
 
 /**
  * Renders an avatar design in real time
  */
-export const AvatarDesign: React.FC<AvatarDesignProps> = ({
-  size,
-  design,
-  avatarStyle = 'Transparent',
-}) => {
-  const props = toAvataaarsProps(design)
-
+export const AvatarDesign: React.FC<AvatarDesignProps> = ({ design, size }) => {
+  const svg = renderAvatarToSvg({ design })
   return (
-    <Avatar
-      size={size}
-      avatarStyle={avatarStyle}
-      {...props}
-      style={undefined}
+    <Image
+      source={{
+        uri: `data:image/svg+xml;utf8,${svg}`,
+      }}
+      style={{
+        width: size,
+        height: size,
+      }}
     />
   )
 }

@@ -24,8 +24,7 @@ import { TrxContext } from 'server/middleware/transaction'
 import { UserCtx, isAdmin } from 'server/create-context'
 import logger from 'utils/logger'
 import { ValidationError } from 'apollo-server-koa'
-import { renderAvatarToPngBuffer } from 'utils/avatar-renderer'
-import { AvatarDesignData } from 'utils/avatar-renderer/pieces'
+import { AvatarDesignData, renderAvatarToPngBuffer } from 'avatars'
 import { uploadBuffer } from 'utils/media'
 
 @InputType({ description: 'A new user input' })
@@ -131,7 +130,7 @@ export default class UserResolver {
 
       // Render and upload thumbnail
       const design = JSON.parse(editUser.avatarData) as AvatarDesignData
-      const buffer = await renderAvatarToPngBuffer(design, 300)
+      const buffer = await renderAvatarToPngBuffer({ design, size: 300 })
 
       patch.avatarThumbnailUrl = await uploadBuffer(
         `avatars/${userId}/${new Date().getTime()}.png`,

@@ -15,10 +15,7 @@ import {
   AvatarFormFragment,
 } from 'types/apollo-schema-types'
 import gql from 'graphql-tag'
-import {
-  AvatarDesignData,
-  getRandomAvatarDesignData,
-} from 'components/AvatarDesign/pieces'
+import { AvatarDesignData, getRandomAvatarDesignData } from 'avatars'
 import { AvatarDesign } from 'components/AvatarDesign'
 import { AvatarDesginCustomizer } from 'components/AvatarDesignCustomizer'
 import { BlackPortal } from 'react-native-portal'

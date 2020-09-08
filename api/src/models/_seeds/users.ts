@@ -1,8 +1,7 @@
 import * as Knex from 'knex'
 import { v4 as uuid } from 'uuid'
 import faker from 'faker'
-import { getRandomAvatarDesignData } from '../../utils/avatar-renderer/pieces'
-import { renderAvatarToPngBuffer } from '../../utils/avatar-renderer'
+import { getRandomAvatarDesignData, renderAvatarToPngBuffer } from 'avatars'
 import { uploadBuffer } from '../../utils/media'
 
 // NOTE: imports are broken when running directly with knex
@@ -13,7 +12,10 @@ export async function seed(knex: Knex): Promise<any> {
 
   for (let i = 0; i < 200; i++) {
     const avatarData = getRandomAvatarDesignData()
-    const buffer = await renderAvatarToPngBuffer(avatarData, 300)
+    const buffer = await renderAvatarToPngBuffer({
+      design: avatarData,
+      size: 300,
+    })
 
     const userId = uuid()
 
