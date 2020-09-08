@@ -23,6 +23,13 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
+    position: 'relative',
+  },
+
+  pieceBacker: {
+    position: 'absolute',
+    backgroundColor: '#e0e0e0',
+    borderRadius: 1000,
   },
 
   modifierPanel: {

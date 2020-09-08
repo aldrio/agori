@@ -1,6 +1,12 @@
 import React, { useState } from 'react'
 import styles from './styles'
-import { View, useWindowDimensions, ScrollView, Image, ImageProps } from 'react-native'
+import {
+  View,
+  useWindowDimensions,
+  ScrollView,
+  Image,
+  ImageProps,
+} from 'react-native'
 import {
   BottomNavigation,
   BottomNavigationTab,
@@ -11,18 +17,19 @@ import {
   TopLevelPieceTypeIds,
   Pieces,
   Piece,
-  PieceId, PieceVariantId
+  PieceId,
+  PieceVariantId,
 } from 'avatars'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import pieces from './pieces'
 
 type PieceImage = {
-  size: number;
-  design: AvatarDesignData;
-  pieceId: PieceId;
-  variantId: PieceVariantId;
-  modifierPieceId?: PieceId;
-  modifierVariantId?: PieceVariantId;
+  size: number
+  design: AvatarDesignData
+  pieceId: PieceId
+  variantId: PieceVariantId
+  modifierPieceId?: PieceId
+  modifierVariantId?: PieceVariantId
 } & Partial<ImageProps>
 
 const PieceImage: React.FC<PieceImage> = ({
@@ -37,23 +44,29 @@ const PieceImage: React.FC<PieceImage> = ({
   const piece = Pieces[pieceId]
   const variant = piece.variants[variantId]
 
-  const pvs = [{ pieceId, pieceVariantId: variantId }].concat(variant.modifiers.map((mid) => ({
-    pieceId: mid,
-    pieceVariantId: mid === modifierPieceId ? modifierVariantId : design[mid],
-  })))
+  const pvs = [{ pieceId, pieceVariantId: variantId }].concat(
+    variant.modifiers.map((mid) => ({
+      pieceId: mid,
+      pieceVariantId: mid === modifierPieceId ? modifierVariantId : design[mid],
+    }))
+  )
 
   const key = pvs
     .map(
       (pv) =>
-        `${pv.pieceId}-${pv.pieceVariantId}${pv.pieceId === modifierPieceId ? '-m' : ''}`
+        `${pv.pieceId}-${pv.pieceVariantId}${
+          pv.pieceId === modifierPieceId ? '-m' : ''
+        }`
     )
     .join('_')
 
-  return <Image
-    source={pieces[key]}
-    style={{ width: size, height: size }}
-    {...imageProps}
-  />
+  return (
+    <Image
+      source={pieces[key as keyof typeof pieces]}
+      style={{ width: size, height: size }}
+      {...imageProps}
+    />
+  )
 }
 
 type PieceToggleProps = {
@@ -76,6 +89,17 @@ const PieceToggle: React.FC<PieceToggleProps> = ({
           active ? { borderColor: theme['color-primary-500'] } : {},
         ]}
       >
+        {imageProps.pieceId === 'eyes' && (
+          <View
+            style={[
+              styles.pieceBacker,
+              {
+                width: imageProps.size * 0.8,
+                height: imageProps.size * 0.8,
+              },
+            ]}
+          />
+        )}
         <PieceImage {...imageProps} />
       </View>
     </TouchableOpacity>
