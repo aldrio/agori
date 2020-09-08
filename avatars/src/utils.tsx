@@ -60,7 +60,7 @@ export const renderPieceToPngBuffer = async (
 
   return await sharp(new Buffer(svg))
     .resize(scaledSize)
-    .png({ compressionLevel: 0 })
+    .png({ compressionLevel: 9 })
     // Extract subsection containing final image
     .extract({
       left: Math.max(0, marginLeft),

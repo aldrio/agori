@@ -117,3 +117,6 @@ dist
 
 # library
 dist
+
+# bin
+output
