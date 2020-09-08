@@ -15,7 +15,7 @@ import {
   AvatarFormFragment,
 } from 'types/apollo-schema-types'
 import gql from 'graphql-tag'
-import { AvatarDesignData, getRandomAvatarDesignData } from 'avatars'
+import { AvatarDesignData, AvatarStyle, getRandomAvatarDesignData } from 'avatars'
 import { AvatarDesign } from 'components/AvatarDesign'
 import { AvatarDesginCustomizer } from 'components/AvatarDesignCustomizer'
 import { BlackPortal } from 'react-native-portal'
@@ -123,7 +123,7 @@ export const AvatarForm: React.FC<AvatarFormProps> = ({
       <View
         style={[styles.avatar, { backgroundColor: theme['color-primary-100'] }]}
       >
-        <AvatarDesign size={size} design={design} />
+        <AvatarDesign size={size} design={design} avatarStyle={AvatarStyle.Transparent} />
       </View>
       <AvatarDesginCustomizer
         design={design}

@@ -20,8 +20,8 @@ export type AvatarDesignProps = InnerAvatarProps
 /**
  * Renders an avatar design in real time
  */
-export const AvatarDesign: React.FC<AvatarDesignProps> = ({ design, size }) => {
-  const svg = renderAvatarToSvg({ design })
+export const AvatarDesign: React.FC<AvatarDesignProps> = ({ design, size, avatarStyle }) => {
+  const svg = renderAvatarToSvg({ design, avatarStyle })
   return (
     <Image
       source={{

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styles from './styles'
-import { View, useWindowDimensions, ScrollView } from 'react-native'
+import { View, useWindowDimensions, ScrollView, Image, ImageProps } from 'react-native'
 import {
   BottomNavigation,
   BottomNavigationTab,
@@ -11,23 +11,60 @@ import {
   TopLevelPieceTypeIds,
   Pieces,
   Piece,
-  PieceId,
+  PieceId, PieceVariantId
 } from 'avatars'
-import {
-  AvatarDesignPiece,
-  AvatarDesignPieceProps,
-} from 'components/AvatarDesign/Piece'
 import { TouchableOpacity } from 'react-native-gesture-handler'
+import pieces from './pieces'
+
+type PieceImage = {
+  size: number;
+  design: AvatarDesignData;
+  pieceId: PieceId;
+  variantId: PieceVariantId;
+  modifierPieceId?: PieceId;
+  modifierVariantId?: PieceVariantId;
+} & Partial<ImageProps>
+
+const PieceImage: React.FC<PieceImage> = ({
+  size,
+  design,
+  pieceId,
+  variantId,
+  modifierPieceId = pieceId,
+  modifierVariantId = variantId,
+  ...imageProps
+}) => {
+  const piece = Pieces[pieceId]
+  const variant = piece.variants[variantId]
+
+  const pvs = [{ pieceId, pieceVariantId: variantId }].concat(variant.modifiers.map((mid) => ({
+    pieceId: mid,
+    pieceVariantId: mid === modifierPieceId ? modifierVariantId : design[mid],
+  })))
+
+  const key = pvs
+    .map(
+      (pv) =>
+        `${pv.pieceId}-${pv.pieceVariantId}${pv.pieceId === modifierPieceId ? '-m' : ''}`
+    )
+    .join('_')
+
+  return <Image
+    source={pieces[key]}
+    style={{ width: size, height: size }}
+    {...imageProps}
+  />
+}
 
 type PieceToggleProps = {
   active: boolean
   onPress: () => void
-} & AvatarDesignPieceProps
+} & PieceImage
 
 const PieceToggle: React.FC<PieceToggleProps> = ({
   onPress,
   active,
-  ...props
+  ...imageProps
 }) => {
   const theme = useTheme()
 
@@ -39,7 +76,7 @@ const PieceToggle: React.FC<PieceToggleProps> = ({
           active ? { borderColor: theme['color-primary-500'] } : {},
         ]}
       >
-        <AvatarDesignPiece {...props} />
+        <PieceImage {...imageProps} />
       </View>
     </TouchableOpacity>
   )
