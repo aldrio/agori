@@ -10,7 +10,7 @@ import {
 } from './data'
 
 export type AvatarDesignPieceProps = {
-  size: number
+  size?: number
   design: AvatarDesignData
 
   pieceId: PieceId
