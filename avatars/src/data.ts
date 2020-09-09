@@ -3,18 +3,18 @@
  */
 export const PieceIds = [
   'skinColor',
-  'hairColor',
   'hair',
-  'hatColor',
-  'accessories',
+  'hairColor',
+  'eyes',
+  'eyebrows',
+  'mouth',
   'facialHair',
+  'accessories',
+  'hatColor',
   'facialHairColor',
   'clothes',
   'clothesColor',
   'clothesGraphic',
-  'eyes',
-  'eyebrows',
-  'mouth',
 ] as const
 
 /**

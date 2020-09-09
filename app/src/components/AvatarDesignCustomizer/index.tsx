@@ -22,6 +22,7 @@ import {
 } from 'avatars'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import pieces from './pieces'
+import icons from './icons'
 
 type PieceImage = {
   size: number
@@ -197,7 +198,10 @@ export const AvatarDesginCustomizer: React.FC<AvatarDesignCustomizerProps> = ({
       >
         {/* TODO: Use icons */}
         {TopLevelPieceTypeIds.map((p) => (
-          <BottomNavigationTab key={p} title={p} />
+          <BottomNavigationTab
+            key={p}
+            icon={(props) => <Image source={icons[p]!} {...props} />}
+          />
         ))}
       </BottomNavigation>
     </View>
