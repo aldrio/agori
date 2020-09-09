@@ -13,4 +13,6 @@ export type Configuration = {
     realmUrl: string
     clientId: string
   }
+
+  sentryDsn?: string
 }
