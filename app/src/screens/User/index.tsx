@@ -15,12 +15,13 @@ import {
 import { Chip } from 'components/Chip'
 import { Alert, View, useWindowDimensions } from 'react-native'
 import { AvatarDesign } from 'components/AvatarDesign'
-import { AvatarDesignData } from 'components/AvatarDesign/pieces'
 import { Section } from 'components/Section'
 import { BlackPortal } from 'react-native-portal'
 import { TopNavigationEditButton } from 'components/TopNavigationEditButton'
 import { PersonalNote } from 'components/PersonalNote'
 import { UnknownAvatarDesign } from 'components/UnknownAvatarDesign'
+import { AvatarDesignData, AvatarStyle } from 'avatars'
+import auth from 'utils/auth'
 
 export const UserScreenName = 'UserScreen'
 export type UserScreenParams = {
@@ -106,7 +107,7 @@ export const UserScreen: React.FC<ProfileProps> = ({
             <AvatarDesign
               size={size}
               design={avatarDesign}
-              avatarStyle="Circle"
+              avatarStyle={AvatarStyle.Circle}
             />
           ) : (
             <UnknownAvatarDesign size={size} />
@@ -157,6 +158,19 @@ export const UserScreen: React.FC<ProfileProps> = ({
           <Text appearance="hint" category="c1">
             Keep a simple reminder. Only you can see this.
           </Text>
+        </Section>
+
+        <Section title="Manage">
+          {isOwnProfile && (
+            <Button
+              onPress={() => {
+                auth.logout()
+              }}
+              status="danger"
+            >
+              Log Out
+            </Button>
+          )}
         </Section>
       </>
     )
