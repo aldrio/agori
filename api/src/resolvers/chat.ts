@@ -70,13 +70,16 @@ export default class ChatResolver {
   async recentMessages(
     @Ctx() ctx: TrxContext & UserCtx,
     @Root() chat: Chat,
-    @Arg('markRead', () => Boolean, { nullable: true }) markRead: boolean = true
+    @Arg('markRead', () => Boolean, { nullable: true })
+    markRead: boolean = true,
+    @Arg('count', () => Number, { nullable: true })
+    count: number = 30
   ): Promise<Message[]> {
     const messages = await chat
       .$relatedQuery('messages', await ctx.trx)
       .withGraphFetched('[chatUser.user]')
       .orderBy('createdAt', 'DESC')
-      .limit(30)
+      .limit(count)
 
     // If logged in and part of this chat set the read status
     if (markRead && ctx.user && messages.length > 0) {
@@ -105,7 +108,7 @@ export default class ChatResolver {
     @Root() chat: Chat
   ): Promise<ChatUser[]> {
     if (!chat.chatUsers) {
-      chat.$fetchGraph('chatUsers.user', { transaction: await ctx.trx })
+      await chat.$fetchGraph('chatUsers.user', { transaction: await ctx.trx })
     }
     return chat.chatUsers!
   }

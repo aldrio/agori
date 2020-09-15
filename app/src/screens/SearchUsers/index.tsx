@@ -112,8 +112,7 @@ export const SearchUsersScreen: React.FC<SearchUsersProps> = ({
   return (
     <Screen
       title="Search"
-      // Dont allow refetch when there is data
-      onRefresh={data ? refetch : refetch}
+      onRefresh={refetch}
       noScroll={!!data}
       padding={!data}
       loading={loading}

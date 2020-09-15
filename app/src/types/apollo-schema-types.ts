@@ -353,6 +353,54 @@ export interface InterestsQuery {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: MainScreenQuery
+// ====================================================
+
+export interface MainScreenQuery_me_chats_myChatUser {
+  __typename: "ChatUser";
+  id: string;
+  lastReadTime: any | null;
+}
+
+export interface MainScreenQuery_me_chats_recentMessages_user {
+  __typename: "User";
+  id: string;
+  avatarThumbnailUrl: string | null;
+  displayName: string;
+}
+
+export interface MainScreenQuery_me_chats_recentMessages {
+  __typename: "Message";
+  id: string;
+  user: MainScreenQuery_me_chats_recentMessages_user;
+  createdAt: any;
+  content: string;
+}
+
+export interface MainScreenQuery_me_chats {
+  __typename: "Chat";
+  id: string;
+  displayName: string | null;
+  private: boolean;
+  myChatUser: MainScreenQuery_me_chats_myChatUser | null;
+  recentMessages: MainScreenQuery_me_chats_recentMessages[];
+}
+
+export interface MainScreenQuery_me {
+  __typename: "User";
+  chats: MainScreenQuery_me_chats[];
+}
+
+export interface MainScreenQuery {
+  me: MainScreenQuery_me;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: SearchUsersQuery
 // ====================================================
 
