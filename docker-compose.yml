@@ -1,0 +1,27 @@
+# For development
+
+version: "3.4"
+
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+  api:
+    build:
+      dockerfile: ./api/Dockerfile
+      context: ./
+      target: dev
+    volumes:
+      - ./api/src:/usr/agori/api/src
+    ports:
+      - 8080:8080
+    env_file:
+      - ./api/.env
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
