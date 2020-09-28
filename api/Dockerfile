@@ -44,7 +44,7 @@ CMD [ "start" ]
 # Dev image
 FROM base AS dev
 
-COPY ./api/tsconfig.json ./api/knexfile.ts ./
+COPY ./api/*.json ./api/*.ts ./api/*.js ./
 VOLUME /usr/agori/api/src
 EXPOSE 8080
 

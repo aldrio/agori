@@ -1,28 +1,27 @@
-# For development
+# For testing
 
 version: "3.4"
 
 services:
-  db:
+  test_db:
     image: postgres
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
       - postgres_data:/var/lib/postgresql/data/
-  api:
+  test_api:
     build:
       dockerfile: ./api/Dockerfile
       context: ./
       target: dev
     volumes:
       - ./api/src:/usr/agori/api/src
-    ports:
-      - 8080:8080
+      - ./api/tests:/usr/agori/api/tests
     env_file:
       - ./api/.env.example
-      - ./api/.env
+      - ./api/.env.test
     depends_on:
-      - db
+      - test_db
 
 volumes:
   postgres_data:
