@@ -11,7 +11,12 @@ FROM node:12-alpine AS base
 
 
 # Install native dependencies
-# RUN apk add --no-cache
+RUN apk add --no-cache \
+  g++ \
+  make \
+  libpng \
+  librsvg \
+  vips-dev
 
 WORKDIR /usr/agori
 

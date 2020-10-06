@@ -18,7 +18,7 @@ export const renderAvatarToPngBuffer = async (
   const size = props.size || 300
 
   const svg = renderAvatarToSvg(props)
-  return await sharp(new Buffer(svg))
+  return await sharp(Buffer.from(svg))
     .resize(size * 2)
     .png({ compressionLevel: 0 })
     .resize(size)
