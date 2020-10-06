@@ -34,6 +34,8 @@ WORKDIR /usr/agori/api
 COPY ./api/package.json ./api/yarn.lock ./ 
 RUN yarn install
 
+USER node
+
 
 # Prod image
 FROM base AS prod
