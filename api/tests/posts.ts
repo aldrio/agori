@@ -120,7 +120,7 @@ describe('Post is created', () => {
     const createComment = await bob.mutate({
       mutation: gql`
         mutation {
-          createPost(postId: "${
+          createPost(parentPostId: "${
             createPost.data!.createPost.id
           }", content: "I'm responding") {
             id
