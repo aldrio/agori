@@ -69,6 +69,7 @@ export default class PostResolver {
     @Arg('query') query: PostQueryInput
   ): Promise<Post[]> {
     return await Post.query(await ctx.trx)
+      .withGraphFetched('user')
       .orderBy(ref('createdAt'), 'DESC')
       .where({
         interestId: query.interestId,
@@ -84,6 +85,7 @@ export default class PostResolver {
     @Arg('id', () => ID) id: string
   ): Promise<Post> {
     return await Post.query(await ctx.trx)
+      .withGraphFetched('user')
       .findById(id)
       .throwIfNotFound()
   }
@@ -99,6 +101,19 @@ export default class PostResolver {
     }
 
     return post.interest!
+  }
+
+  @Authorized('USER')
+  @FieldResolver(() => Post, { nullable: true })
+  async user(
+    @Ctx() ctx: TrxContext & UserCtx,
+    @Root() post: Post
+  ): Promise<User> {
+    if (post.user === undefined) {
+      await post.$fetchGraph('user', { transaction: await ctx.trx })
+    }
+
+    return post.user!
   }
 
   @Authorized('USER')
