@@ -8,7 +8,7 @@ services:
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - test_postgres_data:/var/lib/postgresql/data/
   test_api:
     build:
       dockerfile: ./api/Dockerfile
@@ -22,6 +22,7 @@ services:
       - ./api/.env.test
     depends_on:
       - test_db
+    entrypoint: /usr/agori/scripts/wait-for.sh test_db:5432 -- yarn
 
 volumes:
-  postgres_data:
+  test_postgres_data:
