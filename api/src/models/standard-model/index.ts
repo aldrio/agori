@@ -78,6 +78,6 @@ export default abstract class StandardModel extends Model {
   @Field((type) => Date)
   updatedAt!: Dayjs
 
-  @Field((type) => Date)
+  @Field((type) => Date, { nullable: true })
   deletedAt?: Dayjs | null
 }
