@@ -12,7 +12,7 @@
     "@types/pg": "^7.14.3",
     "@types/sharp": "^0.25.1",
     "@types/uuid": "^8.0.0",
-    "apollo-server-koa": "^2.14.1",
+    "apollo-server-koa": "^2.14.2",
     "avatars": "file:../avatars",
     "aws-sdk": "^2.727.1",
     "class-sanitizer": "^0.0.5",
