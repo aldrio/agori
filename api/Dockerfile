@@ -7,16 +7,14 @@
 # Target prod or dev with docker --target option
 
 # Base image
-FROM node:12-alpine AS base
+FROM node:12 AS base
 
 
 # Install native dependencies
-RUN apk add --no-cache \
-  g++ \
-  make \
-  libpng \
-  librsvg \
-  vips-dev
+RUN apt-get update && apt-get install -y \
+    netcat \
+    libvips-dev \
+  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /usr/agori
 
