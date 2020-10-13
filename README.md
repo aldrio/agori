@@ -1,5 +1,7 @@
 # Agori
 
+![Test API](https://github.com/aldrio/agori/workflows/Test%20API/badge.svg)
+
 Agori is an interest based friendship app.
 
 Users can subscribe to interests that allow them to find and chat with other people they may get along with. Users can create avatars using an avatar customizer to easily express themselves.
