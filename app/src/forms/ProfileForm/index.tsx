@@ -149,12 +149,36 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
           />
         </FormItem>
       </Section>
-      <Section title="Interests" topDivider={false}>
+      <Section title="Interests" topDivider={false} bottomDivider={false}>
         <TouchableOpacity onPress={navigateInterestsScreen}>
-          <View style={styles.interestList}>
-            {profile.interests.map((interest) => (
-              <Chip key={interest.id} label={interest.label} active={true} />
-            ))}
+          <View style={styles.interestContainer}>
+            {profile.interests.length === 0 ? (
+              <>
+                <Text appearance="hint">Add some interests!</Text>
+                <Icon
+                  name="plus-square-outline"
+                  fill="#8F9BB3"
+                  style={styles.addInterestsIcon}
+                />
+              </>
+            ) : (
+              <>
+                <View style={styles.interestList}>
+                  {profile.interests.map((interest) => (
+                    <Chip
+                      key={interest.id}
+                      label={interest.label}
+                      active={true}
+                    />
+                  ))}
+                </View>
+                <Icon
+                  name="edit-outline"
+                  fill="#8F9BB3"
+                  style={styles.addInterestsIcon}
+                />
+              </>
+            )}
           </View>
         </TouchableOpacity>
       </Section>
