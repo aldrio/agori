@@ -133,34 +133,40 @@ export const UserScreen: React.FC<ProfileProps> = ({
         </Section>
 
         <Section title="Interests" topDivider={false}>
-          <View style={styles.interestList}>
-            {user.interests.map((interest) => {
-              const isMatch = !!data.me.interests.find(
-                (mi) => mi.id === interest.id
-              )
+          {user.interests.length === 0 ? (
+            <Text appearance="hint">
+              {user.displayName} hasn't listed any interests...
+            </Text>
+          ) : (
+            <View style={styles.interestList}>
+              {user.interests.map((interest) => {
+                const isMatch = !!data.me.interests.find(
+                  (mi) => mi.id === interest.id
+                )
 
-              return (
-                <Chip
-                  key={interest.id}
-                  label={interest.label}
-                  onLongPress={() =>
-                    Alert.alert(interest.description || 'No description')
-                  }
-                  active={isMatch}
-                />
-              )
-            })}
-          </View>
+                return (
+                  <Chip
+                    key={interest.id}
+                    label={interest.label}
+                    onLongPress={() =>
+                      Alert.alert(interest.description || 'No description')
+                    }
+                    active={isMatch}
+                  />
+                )
+              })}
+            </View>
+          )}
         </Section>
 
-        <Section title="Note">
+        <Section title="Note" topDivider={false}>
           <PersonalNote id={user.id} />
           <Text appearance="hint" category="c1">
             Keep a simple reminder. Only you can see this.
           </Text>
         </Section>
 
-        <Section title="Manage">
+        <Section title="Manage" topDivider={false} bottomDivider={false}>
           {isOwnProfile && (
             <Button
               onPress={() => {

@@ -17,9 +17,26 @@ export default StyleSheet.create({
     marginRight: -32,
   },
 
+  interestContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+  },
+  
+  addInterestsIcon: {
+    width: 32,
+    height: 32,
+    flex: 1,
+    flexGrow: 0,
+    flexShrink: 0,
+  },
+  
   interestList: {
+    flexShrink: 1,
+    flexGrow: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginHorizontal: -6,
+    marginLeft: -6,
   },
 })
