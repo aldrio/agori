@@ -51,6 +51,11 @@ import {
 } from 'screens/EditProfile'
 import { PortalProvider } from 'react-native-portal'
 import { MainTabs as MainTabsComponent } from 'components/MainTabs'
+import {
+  InterestBoardScreen,
+  InterestBoardScreenName,
+  InterestBoardScreenParams,
+} from 'screens/InterestBoard'
 
 export type RootStackParamList = {
   MainTabsScreen: {}
@@ -64,6 +69,7 @@ export type RootStackParamList = {
   [InterestsScreenName]: InterestsScreenParams
   [EditAvatarScreenName]: EditAvatarScreenParams
   [EditProfileScreenName]: EditProfileScreenParams
+  [InterestBoardScreenName]: InterestBoardScreenParams
 }
 
 const Stack = createStackNavigator<RootStackParamList>()
@@ -129,6 +135,10 @@ export const App: React.FC<{}> = () => {
                     <Stack.Screen
                       name={EditProfileScreenName}
                       component={EditProfileScreen}
+                    />
+                    <Stack.Screen
+                      name={InterestBoardScreenName}
+                      component={InterestBoardScreen}
                     />
                   </>
                 ) : (

@@ -15,7 +15,7 @@ export async function up(knex: Knex): Promise<any> {
       .notNullable()
     table.uuid('parent_post_id').references('id').inTable('posts').nullable()
 
-    table.string('content').notNullable()
+    table.string('content', 2000).notNullable()
   })
 }
 

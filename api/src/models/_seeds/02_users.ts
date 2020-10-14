@@ -14,7 +14,7 @@ export async function seed(knex: Knex): Promise<any> {
 
   // Generate seeds
   const users = await Promise.all(
-    [...Array(5)].map(
+    [...Array(200)].map(
       async (): Promise<Objection.PartialModelObject<User>> => {
         const avatarData = getRandomAvatarDesignData()
         const buffer = await renderAvatarToPngBuffer({

@@ -35,6 +35,9 @@ export class PostQueryInput {
 
   @Field(() => ID, { nullable: true })
   interestId?: string
+
+  @Field(() => ID, { nullable: true })
+  parentPostId?: string
 }
 
 @ArgsType()
@@ -71,8 +74,10 @@ export default class PostResolver {
     return await Post.query(await ctx.trx)
       .withGraphFetched('user')
       .orderBy(ref('createdAt'), 'DESC')
+      .skipUndefined()
       .where({
         interestId: query.interestId,
+        parentPostId: query.parentPostId,
       })
       .offset(query.skip)
       .limit(query.take)
@@ -104,7 +109,7 @@ export default class PostResolver {
   }
 
   @Authorized('USER')
-  @FieldResolver(() => Post, { nullable: true })
+  @FieldResolver(() => User)
   async user(
     @Ctx() ctx: TrxContext & UserCtx,
     @Root() post: Post

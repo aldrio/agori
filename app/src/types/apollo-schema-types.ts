@@ -321,6 +321,64 @@ export interface ProfileQuery {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: InterestBoardQuery
+// ====================================================
+
+export interface InterestBoardQuery_interest_posts_user {
+  __typename: "User";
+  id: string;
+  displayName: string;
+  avatarThumbnailUrl: string | null;
+}
+
+export interface InterestBoardQuery_interest_posts_childrenPosts_user {
+  __typename: "User";
+  id: string;
+  displayName: string;
+  avatarThumbnailUrl: string | null;
+}
+
+export interface InterestBoardQuery_interest_posts_childrenPosts {
+  __typename: "Post";
+  id: string;
+  createdAt: any;
+  updatedAt: any;
+  content: string;
+  user: InterestBoardQuery_interest_posts_childrenPosts_user;
+}
+
+export interface InterestBoardQuery_interest_posts {
+  __typename: "Post";
+  id: string;
+  createdAt: any;
+  updatedAt: any;
+  content: string;
+  user: InterestBoardQuery_interest_posts_user;
+  childrenPosts: InterestBoardQuery_interest_posts_childrenPosts[];
+}
+
+export interface InterestBoardQuery_interest {
+  __typename: "Interest";
+  id: string;
+  label: string;
+  description: string;
+  posts: InterestBoardQuery_interest_posts[];
+}
+
+export interface InterestBoardQuery {
+  interest: InterestBoardQuery_interest;
+}
+
+export interface InterestBoardQueryVariables {
+  interestId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: InterestsQuery
 // ====================================================
 
@@ -569,6 +627,31 @@ export interface ProfileFormFragment {
   displayName: string;
   bio: string | null;
   interests: ProfileFormFragment_interests[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: PostFragment
+// ====================================================
+
+export interface PostFragment_user {
+  __typename: "User";
+  id: string;
+  displayName: string;
+  avatarThumbnailUrl: string | null;
+}
+
+export interface PostFragment {
+  __typename: "Post";
+  id: string;
+  createdAt: any;
+  updatedAt: any;
+  content: string;
+  user: PostFragment_user;
 }
 
 /* tslint:disable */

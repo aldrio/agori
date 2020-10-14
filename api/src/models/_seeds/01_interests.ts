@@ -7,6 +7,7 @@ import dayjs from 'dayjs'
 export async function seed(knex: Knex): Promise<any> {
   // Deletes ALL existing entries
   await knex('interests_users').del()
+  await knex('posts').del()
   const deleted = await Interest.query().hardDelete()
   console.log('Deleted', deleted, 'interests')
 
