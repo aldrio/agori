@@ -25,10 +25,7 @@ export type InterestsProps = {
   navigation: InterestsScreenNavigationProp
   route: InterestsScreenRouteProp
 }
-export const InterestsScreen: React.FC<InterestsProps> = ({
-  navigation,
-  route,
-}) => {
+export const InterestsScreen: React.FC<InterestsProps> = () => {
   const { data, loading, error, refetch } = useQuery<InterestsQuery>(
     gql`
       query InterestsQuery {

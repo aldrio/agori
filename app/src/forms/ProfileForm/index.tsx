@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useRef } from 'react'
 import styles from './styles'
 import { View, ToastAndroid, Image } from 'react-native'
-import { Input, Button, Spinner, Text, Icon } from '@ui-kitten/components'
+import { Input, Text, Icon } from '@ui-kitten/components'
 import { useMutation } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import {

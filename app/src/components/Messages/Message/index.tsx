@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './styles'
 import { View } from 'react-native'
-import { Text, Button } from '@ui-kitten/components'
+import { Text } from '@ui-kitten/components'
 import gql from 'graphql-tag'
 import { MessageFragment } from 'types/apollo-schema-types'
 

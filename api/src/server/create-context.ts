@@ -9,11 +9,11 @@ export interface UserCtx {
   roles: string[]
 }
 
-export const isUser = (userCtx: UserCtx) => {
+export const isUser = (userCtx: UserCtx): boolean => {
   return userCtx.roles.includes('USER')
 }
 
-export const isAdmin = (userCtx: UserCtx) => {
+export const isAdmin = (userCtx: UserCtx): boolean => {
   return userCtx.roles.includes('ADMIN')
 }
 

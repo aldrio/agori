@@ -4,7 +4,7 @@ import auth from 'utils/auth'
 
 import { ApolloProvider } from '@apollo/react-hooks'
 
-import { ApplicationProvider, IconRegistry, Text } from '@ui-kitten/components'
+import { ApplicationProvider, IconRegistry } from '@ui-kitten/components'
 import * as eva from '@eva-design/eva'
 import { agoriTheme } from 'utils/theme'
 import { EvaIconsPack } from '@ui-kitten/eva-icons'

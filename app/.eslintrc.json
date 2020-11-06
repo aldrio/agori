@@ -1,0 +1,46 @@
+{
+  "env": {
+    "es2020": true,
+    "browser": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "react"],
+  "rules": {
+    "no-async-promise-executor": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "@typescript-eslint/no-inferrable-types": "off",
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "react/prop-types": "off",
+    "react/no-unescaped-entities": "warn",
+    "@typescript-eslint/ban-types": [
+      "error",
+      {
+        "types": {
+          "{}": false
+        }
+      }
+    ],
+    "@typescript-eslint/no-extra-semi": "off",
+    "react-hooks/exhaustive-deps": "error"
+  }
+}

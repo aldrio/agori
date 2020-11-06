@@ -1,5 +1,5 @@
 import { PieceId } from 'avatars'
-import { ImageSourcePropType, ImageURISource } from 'react-native'
+import { ImageURISource } from 'react-native'
 
 const ICON_MAP: Partial<Record<PieceId, ImageURISource>> = {
   accessories: require('./accessories.png'),

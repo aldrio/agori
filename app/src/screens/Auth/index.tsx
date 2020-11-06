@@ -19,7 +19,7 @@ export type AuthProps = {
   navigation: AuthScreenNavigationProp
   route: AuthScreenRouteProp
 }
-export const AuthScreen: React.FC<AuthProps> = ({ navigation, route }) => {
+export const AuthScreen: React.FC<AuthProps> = () => {
   const [isLoading, setIsLoading] = useState(false)
   return (
     <Screen title="Auth" back>

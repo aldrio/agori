@@ -5,14 +5,14 @@ export default {
   /**
    * Sets up database
    */
-  initDatabase: async () => {
+  initDatabase: async (): Promise<void> => {
     await knex.migrate.latest()
   },
 
   /**
    * Destroys database
    */
-  destroyDatabase: async () => {
+  destroyDatabase: async (): Promise<void> => {
     await knex.migrate.rollback()
     await knex.destroy()
   },
@@ -20,7 +20,7 @@ export default {
   /**
    * Removes everything in the database
    */
-  cleanDatabase: async () => {
+  cleanDatabase: async (): Promise<void> => {
     await knexCleaner.clean(knex, {
       ignoreTables: ['knex_migrations', 'knex_migrations_lock'],
     })

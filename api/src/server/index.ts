@@ -52,7 +52,7 @@ export function createWebServer(): Koa {
   return app
 }
 
-export async function startServer() {
+export async function startServer(): Promise<void> {
   const schema = createSchema()
   const app = createWebServer()
   const plugins = getGraphQLPlugins()
@@ -87,7 +87,6 @@ export async function startServer() {
           const auth = await jwtAuth(params.jwt)
           return await contextFromAuthentication(auth)
         },
-        onDisconnect: () => {},
       },
       { path: '/graphql', server: httpServer }
     )

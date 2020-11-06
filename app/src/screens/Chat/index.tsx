@@ -31,7 +31,7 @@ export type ChatProps = {
   navigation: ChatScreenNavigationProp
   route: ChatScreenRouteProp
 }
-export const ChatScreen: React.FC<ChatProps> = ({ navigation, route }) => {
+export const ChatScreen: React.FC<ChatProps> = ({ route }) => {
   const { data, loading, error, subscribeToMore } = useQuery<ChatQuery>(
     gql`
       query ChatQuery($userId: ID!) {

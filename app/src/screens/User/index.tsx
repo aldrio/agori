@@ -220,7 +220,7 @@ export const CurrentUserScreen: React.FC<CurrentUserProps> = ({
   navigation,
   route,
 }) => {
-  const { data, error, loading } = useQuery<CurrentUserScreenQuery>(
+  const { data } = useQuery<CurrentUserScreenQuery>(
     gql`
       query CurrentUserScreenQuery {
         me {

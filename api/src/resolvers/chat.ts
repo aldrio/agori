@@ -15,8 +15,6 @@ import { fn, ref } from 'objection'
 
 @Resolver(Chat)
 export default class ChatResolver {
-  constructor() {}
-
   @Authorized('USER')
   @Query(() => Chat)
   async privateChat(

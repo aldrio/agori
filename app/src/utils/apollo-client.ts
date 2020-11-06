@@ -36,9 +36,6 @@ const wsLink = new WebSocketLink({
   uri: Config.apiWsUrl,
   options: {
     reconnect: true,
-    connectionCallback: (error, result) => {
-      // TODO: handle
-    },
     connectionParams: async () => ({
       jwt: await auth.getJwt(),
     }),

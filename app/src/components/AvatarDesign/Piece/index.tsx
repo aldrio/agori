@@ -21,6 +21,7 @@ export const AvatarDesignPiece: React.FC<AvatarDesignPieceProps> = (props) => {
   // Cache to help performance
   const svg = React.useMemo(() => {
     return renderPieceToSvg(props)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, Object.values(getInnerProps(props)))
 
   return (

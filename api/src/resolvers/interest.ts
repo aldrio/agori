@@ -36,8 +36,6 @@ class NewInterestInput {
 
 @Resolver(Interest)
 export default class InterestResolver {
-  constructor() {}
-
   @Authorized('USER')
   @Query(() => Interest)
   async interest(

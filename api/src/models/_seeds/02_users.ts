@@ -7,7 +7,7 @@ import dayjs from 'dayjs'
 import { getRandomAvatarDesignData, renderAvatarToPngBuffer } from 'avatars'
 import { uploadBuffer } from 'utils/media'
 
-export async function seed(knex: Knex): Promise<any> {
+export async function seed(_knex: Knex): Promise<any> {
   // Deletes ALL existing entries
   const deleted = await User.query().hardDelete()
   console.log('Deleted', deleted, 'users')
