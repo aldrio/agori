@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 /**
  * Maps custom types to ones graphql understands
  */
-export const MapTypes: MiddlewareFn = async ({ info }, next) => {
+export const MapTypes: MiddlewareFn = async (_, next) => {
   const result: unknown = await next()
 
   if (dayjs.isDayjs(result)) {

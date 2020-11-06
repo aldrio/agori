@@ -31,8 +31,6 @@ class NewMessageInput {
 
 @Resolver(Message)
 export default class MessageResolver {
-  constructor() {}
-
   @FieldResolver(() => ChatUser)
   async chatUser(
     @Ctx() ctx: TrxContext & UserCtx,

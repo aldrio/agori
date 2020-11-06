@@ -23,7 +23,7 @@ export default StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'space-between',
   },
-  
+
   addInterestsIcon: {
     width: 32,
     height: 32,
@@ -31,7 +31,7 @@ export default StyleSheet.create({
     flexGrow: 0,
     flexShrink: 0,
   },
-  
+
   interestList: {
     flexShrink: 1,
     flexGrow: 1,

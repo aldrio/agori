@@ -69,15 +69,15 @@ export default abstract class StandardModel extends Model {
     this.updatedAt = dayjs()
   }
 
-  @Field((type) => ID)
+  @Field(() => ID)
   id!: string
 
-  @Field((type) => Date)
+  @Field(() => Date)
   createdAt!: Dayjs
 
-  @Field((type) => Date)
+  @Field(() => Date)
   updatedAt!: Dayjs
 
-  @Field((type) => Date)
+  @Field(() => Date)
   deletedAt?: Dayjs | null
 }

@@ -6,8 +6,6 @@ import dayjs from 'dayjs'
 
 @Resolver(ChatUser)
 export default class ChatUserResolver {
-  constructor() {}
-
   @FieldResolver(() => User)
   async user(
     @Ctx() ctx: TrxContext & UserCtx,

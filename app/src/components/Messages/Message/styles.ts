@@ -1,5 +1,4 @@
 import { StyleSheet, Dimensions } from 'react-native'
-import { agoriTheme } from 'utils/theme'
 
 const Window = Dimensions.get('window')
 

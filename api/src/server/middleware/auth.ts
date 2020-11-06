@@ -85,7 +85,7 @@ export const jwtAuth = async (token: string): Promise<Authenticated> => {
 /**
  * Adds authentication info to the koa context
  */
-export const koaAuth = async (ctx: Context, next: Next) => {
+export const koaAuth = async (ctx: Context, next: Next): Promise<void> => {
   try {
     const token = (ctx.header.authorization as string).replace(/^Bearer /, '')
     const auth = await jwtAuth(token)

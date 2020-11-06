@@ -20,16 +20,16 @@ afterAll(async () => {
 
 @Resolver()
 class SomethingDoer {
-  @Query((returns) => Boolean)
+  @Query(() => Boolean)
   blank() {
     return true
   }
-  @Mutation((returns) => Boolean)
+  @Mutation(() => Boolean)
   async doAnError(@Ctx() ctx: TrxContext) {
     await User.query(await ctx.trx).insert({ displayName: 'abc' })
     throw new Error('wat')
   }
-  @Mutation((returns) => Boolean)
+  @Mutation(() => Boolean)
   async doNoError(@Ctx() ctx: TrxContext) {
     await User.query(await ctx.trx).insert({ displayName: 'abc' })
     return true
