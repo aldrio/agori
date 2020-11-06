@@ -38,8 +38,6 @@ class SearchArgs {
 
 @Resolver(UserSearchResult)
 export default class UserSearchResultResolver {
-  constructor() {}
-
   @Authorized('USER')
   @Query(() => [UserSearchResult])
   async searchUsers(

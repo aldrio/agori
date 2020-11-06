@@ -78,8 +78,6 @@ class UsersArgs {
 
 @Resolver(User)
 export default class UserResolver {
-  constructor() {}
-
   @Authorized('USER')
   @Query(() => User)
   async me(@Ctx() ctx: TrxContext & UserCtx): Promise<User> {

@@ -14,7 +14,6 @@ import {
   Image,
   View,
   useWindowDimensions,
-  PixelRatio,
 } from 'react-native'
 import { UnknownAvatarDesign } from 'components/UnknownAvatarDesign'
 
@@ -35,7 +34,6 @@ export type SearchUsersProps = {
 }
 export const SearchUsersScreen: React.FC<SearchUsersProps> = ({
   navigation,
-  route,
 }) => {
   const { data, loading, error, refetch } = useQuery<SearchUsersQuery>(
     gql`

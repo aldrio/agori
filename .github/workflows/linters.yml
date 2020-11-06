@@ -1,0 +1,33 @@
+name: Lints
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  lint-api:
+    name: Lint API
+    defaults:
+      run:
+        working-directory: api
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn install
+      - name: Run linter
+        run: yarn lint
+  lint-app:
+    name: Lint app
+    defaults:
+      run:
+        working-directory: app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: yarn install
+      - name: Run linter
+        run: yarn lint

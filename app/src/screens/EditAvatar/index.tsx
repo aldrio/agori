@@ -25,10 +25,7 @@ export type EditAvatarProps = {
   route: EditAvatarScreenRouteProp
 }
 
-export const EditAvatarScreen: React.FC<EditAvatarProps> = ({
-  navigation,
-  route,
-}) => {
+export const EditAvatarScreen: React.FC<EditAvatarProps> = ({ navigation }) => {
   const { data, loading, error } = useQuery<AvatarQuery>(
     gql`
       query AvatarQuery {

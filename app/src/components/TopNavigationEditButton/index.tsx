@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './styles'
-import { TopNavigationAction, Icon, Spinner } from '@ui-kitten/components'
+import { TopNavigationAction, Icon } from '@ui-kitten/components'
 
 const EditIcon = (props: any) => <Icon {...props} name="edit" />
 

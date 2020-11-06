@@ -26,7 +26,7 @@ export type MainProps = {
   navigation: MainScreenNavigationProp
   route: MainScreenRouteProp
 }
-export const MainScreen: React.FC<MainProps> = ({ navigation, route }) => {
+export const MainScreen: React.FC<MainProps> = () => {
   const { data, loading, error, refetch } = useQuery<MainScreenQuery>(
     gql`
       query MainScreenQuery {

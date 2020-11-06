@@ -2,7 +2,7 @@ import StandardModel from './standard-model'
 import { Model } from 'objection'
 import { Field, ObjectType } from 'type-graphql'
 import path from 'path'
-import { InterestUser, Message, User } from 'models'
+import { InterestUser, User } from 'models'
 
 @ObjectType('Interest')
 export default class Interest extends StandardModel {

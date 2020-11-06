@@ -37,8 +37,6 @@ export class AuthManager {
   @observable
   tokens: Tokens | null = null
 
-  constructor() {}
-
   /**
    * If the user is logged in
    */
@@ -70,7 +68,7 @@ export class AuthManager {
    */
   private getTokens = async (
     grantType: string,
-    args: object
+    args: Record<string, string | number | boolean | undefined>
   ): Promise<void> => {
     const body = {
       client_id: Config.keycloak.clientId,
@@ -102,7 +100,7 @@ export class AuthManager {
     this.tokens!.expiresAt = Date.now() + this.tokens!.expires_in * 1000
   }
 
-  login = async () => {
+  login = async (): Promise<void> => {
     const discovery = await AuthSession.fetchDiscoveryAsync(
       Config.keycloak.realmUrl
     )
@@ -132,13 +130,13 @@ export class AuthManager {
     }
   }
 
-  refresh = async () => {
+  refresh = async (): Promise<void> => {
     await this.getTokens('refresh_token', {
       refresh_token: this.tokens?.refresh_token,
     })
   }
 
-  logout = async () => {
+  logout = async (): Promise<void> => {
     const discovery = await AuthSession.fetchDiscoveryAsync(
       Config.keycloak.realmUrl
     )

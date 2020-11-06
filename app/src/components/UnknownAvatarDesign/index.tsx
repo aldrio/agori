@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './styles'
 import { Image } from 'react-native'
 
-const unknown = require('./unknown.png')
+const unknown = require('./unknown.png') // eslint-disable-line @typescript-eslint/no-var-requires
 
 export type UnknownAvatarDesignProps = {
   size: string | number

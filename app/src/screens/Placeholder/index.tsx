@@ -5,7 +5,6 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RouteProp } from '@react-navigation/native'
 import { Screen } from 'components/Screen'
 import { Text, Button } from '@ui-kitten/components'
-import authManager from 'utils/auth'
 
 export const PlaceholderScreenName = 'PlaceholderScreen'
 export type PlaceholderScreenParams = {}
@@ -24,7 +23,6 @@ export type PlaceholderProps = {
 }
 export const PlaceholderScreen: React.FC<PlaceholderProps> = ({
   navigation,
-  route,
 }) => {
   return (
     <Screen title="Placeholder">

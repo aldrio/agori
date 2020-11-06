@@ -26,7 +26,6 @@ export type EditProfileProps = {
 }
 export const EditProfileScreen: React.FC<EditProfileProps> = ({
   navigation,
-  route,
 }) => {
   const { data, loading, error, refetch } = useQuery<ProfileQuery>(
     gql`

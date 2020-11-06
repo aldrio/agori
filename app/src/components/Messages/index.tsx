@@ -5,8 +5,7 @@ import { MessageFragment } from 'types/apollo-schema-types'
 import { Message } from './Message'
 import { Layout, Text } from '@ui-kitten/components'
 import dayjs from 'dayjs'
-
-var relativeTime = require('dayjs/plugin/relativeTime')
+import relativeTime from 'dayjs/plugin/relativeTime'
 dayjs.extend(relativeTime)
 
 export type MessagesProps = {
