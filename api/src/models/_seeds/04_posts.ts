@@ -14,6 +14,7 @@ export async function seed(knex: Knex): Promise<any> {
   const interests = await Interest.query()
   const users = await User.query()
 
+  const topLevelPosts: Objection.PartialModelObject<Post>[] = []
   const posts: Objection.PartialModelObject<Post>[] = []
   for (let i = 0; i < 1000; i++) {
     const date1 = faker.date.recent()
@@ -27,12 +28,13 @@ export async function seed(knex: Knex): Promise<any> {
       updatedAt: dayjs(Math.max(date1.getTime(), date2.getTime())),
     }
 
-    if (Math.random() < 0.3 && i !== 0) {
-      const parentPost = faker.helpers.randomize(posts)
+    if (Math.random() < 0.75 && i !== 0) {
+      const parentPost = faker.helpers.randomize(topLevelPosts)
       post.parentPostId = parentPost.id!
       post.interestId = parentPost.interestId!
     } else {
       post.interestId = faker.helpers.randomize(interests).id
+      topLevelPosts.push(post)
     }
 
     posts.push(post)
