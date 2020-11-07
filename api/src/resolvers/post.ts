@@ -63,8 +63,6 @@ class EditPostInput {
 
 @Resolver(Post)
 export default class PostResolver {
-  constructor() {}
-
   @Authorized('USER')
   @Query(() => [Post])
   async posts(

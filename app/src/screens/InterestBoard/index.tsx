@@ -32,7 +32,6 @@ export type InterestBoardProps = {
   route: InterestBoardScreenRouteProp
 }
 export const InterestBoardScreen: React.FC<InterestBoardProps> = ({
-  navigation,
   route,
 }) => {
   const { interestId } = route.params
@@ -74,7 +73,7 @@ export const InterestBoardScreen: React.FC<InterestBoardProps> = ({
         <Text>{interest.posts.length} posts</Text>
 
         {interest.posts.map((post) => (
-          <Post post={post} />
+          <Post key={post.id} post={post} />
         ))}
       </View>
     )
