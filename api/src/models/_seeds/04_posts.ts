@@ -5,7 +5,7 @@ import { Interest, Post, User } from 'models'
 import Objection from 'objection'
 import dayjs from 'dayjs'
 
-export async function seed(knex: Knex): Promise<any> {
+export async function seed(_knex: Knex): Promise<any> {
   // Deletes ALL existing entries
   const deleted = await Post.query().hardDelete()
   console.log('Deleted', deleted, 'posts')

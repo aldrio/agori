@@ -13,6 +13,9 @@ import {
   Root,
   Mutation,
   InputType,
+  Subscription,
+  PubSub,
+  PubSubEngine,
 } from 'type-graphql'
 import { Min, Max, MinLength, MaxLength } from 'class-validator'
 import logger from 'utils/logger'
@@ -75,7 +78,7 @@ export default class PostResolver {
       .skipUndefined()
       .where({
         interestId: query.interestId,
-        parentPostId: query.parentPostId,
+        parentPostId: query.parentPostId || null,
       })
       .offset(query.skip)
       .limit(query.take)
@@ -141,7 +144,7 @@ export default class PostResolver {
   ): Promise<Post[]> {
     if (post.childrenPosts === undefined) {
       await post
-        .$fetchGraph('childrenPosts', { transaction: await ctx.trx })
+        .$fetchGraph('childrenPosts.user', { transaction: await ctx.trx })
         .orderBy(ref('createdAt'), 'DESC')
         .offset(query.skip)
         .limit(query.take)
@@ -154,6 +157,7 @@ export default class PostResolver {
   @Mutation(() => Post)
   async createPost(
     @Ctx() ctx: TrxContext & UserCtx,
+    @PubSub() pubSub: PubSubEngine,
     @Args() createPost: NewPostInput,
     @Arg('interestId', () => ID, { nullable: true }) interestId?: string,
     @Arg('parentPostId', () => ID, { nullable: true }) parentPostId?: string
@@ -162,8 +166,9 @@ export default class PostResolver {
       throw new Error('must specify one of interestId or parentPostId')
     }
 
+    let parent: Post | null = null
     if (parentPostId) {
-      const parent = await Post.query(await ctx.trx).findById(parentPostId)
+      parent = await Post.query(await ctx.trx).findById(parentPostId)
       interestId = parent.interestId
     }
 
@@ -172,18 +177,28 @@ export default class PostResolver {
       'creating post'
     )
 
-    return await Post.query(await ctx.trx).insert({
+    const newPost = await Post.query(await ctx.trx).insert({
       ...createPost,
       parentPostId,
       interestId,
       userId: ctx.user!.id,
     })
+
+    if (parent) {
+      // TODO: Move to a hook
+      setTimeout(async () => {
+        await pubSub.publish(`POST_${parentPostId}_CHILD_ADDED`, newPost)
+      }, 50)
+    }
+
+    return newPost
   }
 
   @Authorized('USER')
   @Mutation(() => Post)
   async editPost(
     @Ctx() ctx: TrxContext & UserCtx,
+    @PubSub() pubSub: PubSubEngine,
     @Args() editPost: EditPostInput,
     @Arg('id', () => ID) id: string
   ): Promise<Post> {
@@ -201,6 +216,35 @@ export default class PostResolver {
       })
     }
 
-    return await editQuery
+    const newPost = await editQuery
+
+    // TODO: Move to a hook
+    pubSub.publish(`POST_${id}_MODIFIED`, newPost)
+
+    return newPost
+  }
+
+  @Authorized('USER')
+  @Subscription(() => Post, {
+    description: 'Watches `Post` for updates',
+    topics: ({ args }) => `POST_${args.postId}_MODIFIED`,
+  })
+  async watchPost(
+    @Root() post: Post,
+    @Arg('postId', () => ID) _postId: string
+  ): Promise<Post> {
+    return post
+  }
+
+  @Authorized('USER')
+  @Subscription(() => Post, {
+    description: 'Watches `Post` for new children',
+    topics: ({ args }) => `POST_${args.postId}_CHILD_ADDED`,
+  })
+  async watchPostChildAdded(
+    @Root() child: Post,
+    @Arg('postId', () => ID) _postId: string
+  ): Promise<Post> {
+    return child
   }
 }

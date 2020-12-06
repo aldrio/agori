@@ -3,12 +3,13 @@ import { StyleSheet } from 'react-native'
 export default StyleSheet.create({
   post: {
     marginVertical: 12,
-  },
-  postBorder: {
     borderBottomColor: '#eee',
     borderBottomWidth: 1,
     paddingBottom: 24,
     marginBottom: 24,
+  },
+  comment: {
+    marginVertical: 4,
   },
 
   header: {
@@ -57,16 +58,29 @@ export default StyleSheet.create({
     height: 12,
   },
 
-  sendButton: {
+  // Reply field
+  reply: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  replyInput: {
+    flexGrow: 1,
+    flexShrink: 1,
+    marginLeft: 8,
+  },
+  replySendButton: {
     marginHorizontal: 4,
     borderRadius: 50,
   },
+  replyAvatar: {
+    marginTop: 3,
+  },
 
+  // Reply button that makes reply field appear
   replyButton: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-
   replyButtonIcon: {
     width: 14,
     height: 14,

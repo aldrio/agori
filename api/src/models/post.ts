@@ -6,7 +6,7 @@ import { Interest, User } from 'models'
 
 @ObjectType('Post')
 export default class Post extends StandardModel {
-  static get tableName() {
+  static get tableName(): string {
     return 'posts'
   }
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useCallback } from 'react'
 import styles from './styles'
 import { RootStackParamList } from 'App'
 import { StackNavigationProp } from '@react-navigation/stack'
@@ -10,9 +10,11 @@ import gql from 'graphql-tag'
 import {
   InterestBoardQuery,
   InterestBoardQueryVariables,
+  InterestBoardQuery_interest_posts,
 } from 'types/apollo-schema-types'
-import { View } from 'react-native'
-import { Post, PostGqlFragment } from 'components/Post'
+import { FlatList, ListRenderItem, RefreshControl } from 'react-native'
+import { PostGqlFragment } from 'components/Post'
+import { WatchPost } from './WatchPost'
 
 export const InterestBoardScreenName = 'InterestBoardScreen'
 export type InterestBoardScreenParams = {
@@ -35,7 +37,7 @@ export const InterestBoardScreen: React.FC<InterestBoardProps> = ({
   route,
 }) => {
   const { interestId } = route.params
-  const { data, loading, error, refetch } = useQuery<
+  const { data, loading, error, refetch, subscribeToMore } = useQuery<
     InterestBoardQuery,
     InterestBoardQueryVariables
   >(
@@ -51,10 +53,6 @@ export const InterestBoardScreen: React.FC<InterestBoardProps> = ({
             childrenPosts(query: {}) {
               id
               ...PostFragment
-              childrenPosts(query: {}) {
-                id
-                ...PostFragment
-              }
             }
           }
         }
@@ -64,18 +62,43 @@ export const InterestBoardScreen: React.FC<InterestBoardProps> = ({
     { variables: { interestId } }
   )
 
+  const extractKey = useCallback(
+    (post: InterestBoardQuery_interest_posts) => post.id,
+    []
+  )
+  const renderPost = useCallback<
+    ListRenderItem<InterestBoardQuery_interest_posts>
+  >(
+    ({ item: post }) => {
+      // Wrap mounted posts in `WatchPost` so it can subscribe to more info
+      return <WatchPost subscribeToMore={subscribeToMore} post={post} />
+    },
+    [subscribeToMore]
+  )
+
   let body = null
   if (data) {
     const { interest } = data
-    body = (
-      <View>
-        <Text>{interest.description}</Text>
-        <Text>{interest.posts.length} posts</Text>
 
-        {interest.posts.map((post) => (
-          <Post key={post.id} post={post} />
-        ))}
-      </View>
+    body = (
+      <FlatList
+        refreshControl={
+          <RefreshControl refreshing={loading === true} onRefresh={refetch} />
+        }
+        ListHeaderComponent={
+          <>
+            <Text>{interest.description}</Text>
+            <Text>{interest.posts.length} posts</Text>
+          </>
+        }
+        data={interest.posts}
+        keyExtractor={extractKey}
+        renderItem={renderPost}
+        contentContainerStyle={styles.list}
+        keyboardDismissMode="none"
+        keyboardShouldPersistTaps="always"
+        initialNumToRender={5}
+      />
     )
   }
 
@@ -86,6 +109,8 @@ export const InterestBoardScreen: React.FC<InterestBoardProps> = ({
       onRefresh={refetch}
       loading={loading}
       error={error?.message}
+      noScroll={!!data}
+      padding={!data}
     >
       {body}
     </Screen>
