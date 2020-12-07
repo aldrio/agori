@@ -736,6 +736,20 @@ export interface InterestToggleFragment {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL fragment: PostFormFragment
+// ====================================================
+
+export interface PostFormFragment {
+  __typename: "Post";
+  id: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL fragment: ProfileFormFragment
 // ====================================================
 

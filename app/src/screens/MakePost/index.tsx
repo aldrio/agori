@@ -39,10 +39,9 @@ export const MakePostScreen: React.FC<MakePostProps> = ({
       </Text>
       <PostForm
         interestId={interestId}
-        onCompleted={(_postId) => {
+        onCompleted={(_post) => {
           navigation.navigate('InterestBoardScreen', {
             interestId,
-            // TODO: Filter to only this post
           })
         }}
       />
