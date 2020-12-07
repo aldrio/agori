@@ -2,7 +2,7 @@ import StandardModel from './standard-model'
 import { Model } from 'objection'
 import { Field, ObjectType } from 'type-graphql'
 import path from 'path'
-import { InterestUser, User } from 'models'
+import { InterestUser, Post, User } from 'models'
 
 @ObjectType('Interest')
 export default class Interest extends StandardModel {
@@ -31,11 +31,21 @@ export default class Interest extends StandardModel {
         to: 'users.id',
       },
     },
+    posts: {
+      relation: Model.HasManyRelation,
+      modelClass: path.join(__dirname, 'post'),
+      join: {
+        from: 'interests.id',
+        to: 'posts.interestId',
+      },
+    },
   }
 
   interestUsers?: InterestUser[]
 
   users?: User[]
+
+  posts?: Post[]
 
   @Field(() => Boolean)
   private!: boolean

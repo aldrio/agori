@@ -4,6 +4,48 @@
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: PostQuery
+// ====================================================
+
+export interface PostQuery_me {
+  __typename: "User";
+  id: string;
+  avatarThumbnailUrl: string | null;
+}
+
+export interface PostQuery {
+  me: PostQuery_me;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: ReplyPostMutation
+// ====================================================
+
+export interface ReplyPostMutation_createPost {
+  __typename: "Post";
+  id: string;
+}
+
+export interface ReplyPostMutation {
+  createPost: ReplyPostMutation_createPost;
+}
+
+export interface ReplyPostMutationVariables {
+  parentPostId: string;
+  content: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: EditAvatarMutation
 // ====================================================
 
@@ -106,6 +148,29 @@ export interface RemoveInterestMutation {
 
 export interface RemoveInterestMutationVariables {
   interestId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: SavePostMutation
+// ====================================================
+
+export interface SavePostMutation_createPost {
+  __typename: "Post";
+  id: string;
+}
+
+export interface SavePostMutation {
+  createPost: SavePostMutation_createPost;
+}
+
+export interface SavePostMutationVariables {
+  interestId: string;
+  content: string;
 }
 
 /* tslint:disable */
@@ -321,6 +386,100 @@ export interface ProfileQuery {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: InterestBoardQuery
+// ====================================================
+
+export interface InterestBoardQuery_interest_posts_user {
+  __typename: "User";
+  id: string;
+  displayName: string;
+  avatarThumbnailUrl: string | null;
+}
+
+export interface InterestBoardQuery_interest_posts_childrenPosts_user {
+  __typename: "User";
+  id: string;
+  displayName: string;
+  avatarThumbnailUrl: string | null;
+}
+
+export interface InterestBoardQuery_interest_posts_childrenPosts {
+  __typename: "Post";
+  id: string;
+  createdAt: any;
+  updatedAt: any;
+  content: string;
+  user: InterestBoardQuery_interest_posts_childrenPosts_user;
+}
+
+export interface InterestBoardQuery_interest_posts {
+  __typename: "Post";
+  id: string;
+  createdAt: any;
+  updatedAt: any;
+  content: string;
+  user: InterestBoardQuery_interest_posts_user;
+  childrenPosts: InterestBoardQuery_interest_posts_childrenPosts[];
+}
+
+export interface InterestBoardQuery_interest {
+  __typename: "Interest";
+  id: string;
+  label: string;
+  description: string;
+  posts: InterestBoardQuery_interest_posts[];
+}
+
+export interface InterestBoardQuery {
+  interest: InterestBoardQuery_interest;
+}
+
+export interface InterestBoardQueryVariables {
+  interestId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL subscription operation: PostChildAddedSubscription
+// ====================================================
+
+export interface PostChildAddedSubscription_watchPostChildAdded_user {
+  __typename: "User";
+  id: string;
+  displayName: string;
+  avatarThumbnailUrl: string | null;
+}
+
+export interface PostChildAddedSubscription_watchPostChildAdded {
+  __typename: "Post";
+  id: string;
+  createdAt: any;
+  updatedAt: any;
+  content: string;
+  user: PostChildAddedSubscription_watchPostChildAdded_user;
+}
+
+export interface PostChildAddedSubscription {
+  /**
+   * Watches `Post` for new children
+   */
+  watchPostChildAdded: PostChildAddedSubscription_watchPostChildAdded;
+}
+
+export interface PostChildAddedSubscriptionVariables {
+  postId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: InterestsQuery
 // ====================================================
 
@@ -520,6 +679,31 @@ export interface MessageFragment {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL fragment: PostFragment
+// ====================================================
+
+export interface PostFragment_user {
+  __typename: "User";
+  id: string;
+  displayName: string;
+  avatarThumbnailUrl: string | null;
+}
+
+export interface PostFragment {
+  __typename: "Post";
+  id: string;
+  createdAt: any;
+  updatedAt: any;
+  content: string;
+  user: PostFragment_user;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL fragment: AvatarFormFragment
 // ====================================================
 
@@ -544,6 +728,20 @@ export interface InterestToggleFragment {
   id: string;
   label: string;
   description: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL fragment: PostFormFragment
+// ====================================================
+
+export interface PostFormFragment {
+  __typename: "Post";
+  id: string;
 }
 
 /* tslint:disable */

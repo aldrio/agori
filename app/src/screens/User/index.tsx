@@ -148,6 +148,11 @@ export const UserScreen: React.FC<ProfileProps> = ({
                   <Chip
                     key={interest.id}
                     label={interest.label}
+                    onPress={() =>
+                      navigation.navigate('InterestBoardScreen', {
+                        interestId: interest.id,
+                      })
+                    }
                     onLongPress={() =>
                       Alert.alert(interest.description || 'No description')
                     }

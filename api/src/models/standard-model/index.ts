@@ -61,8 +61,12 @@ export default abstract class StandardModel extends Model {
       this.id = uuid()
     }
     const now = dayjs()
-    this.createdAt = now
-    this.updatedAt = now
+    if (!this.createdAt) {
+      this.createdAt = now
+    }
+    if (!this.updatedAt) {
+      this.updatedAt = now
+    }
   }
 
   $beforeUpdate() {
@@ -78,6 +82,6 @@ export default abstract class StandardModel extends Model {
   @Field(() => Date)
   updatedAt!: Dayjs
 
-  @Field(() => Date)
+  @Field(() => Date, { nullable: true })
   deletedAt?: Dayjs | null
 }

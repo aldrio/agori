@@ -9,12 +9,15 @@ import {
   InputType,
   Field,
   Mutation,
+  Root,
+  FieldResolver,
 } from 'type-graphql'
 import { UserCtx } from 'server/create-context'
-import { User, Interest } from 'models'
+import { User, Interest, Post } from 'models'
 import { Trim } from 'class-sanitizer'
 import { MinLength, MaxLength } from 'class-validator'
 import { UniqueViolationError } from 'objection'
+import PostResolver, { PostQueryInput } from './post'
 
 @InputType({ description: 'A new interest input' })
 class NewInterestInput {
@@ -116,5 +119,18 @@ export default class InterestResolver {
       .where({ interestId })
 
     return user
+  }
+
+  @Authorized('USER')
+  @FieldResolver(() => [Post])
+  async posts(
+    @Ctx() ctx: TrxContext & UserCtx,
+    @Root() interest: Interest,
+    @Arg('query') query: PostQueryInput
+  ): Promise<Post[]> {
+    return new PostResolver().posts(ctx, {
+      ...query,
+      interestId: interest.id,
+    })
   }
 }
