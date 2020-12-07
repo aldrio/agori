@@ -15,7 +15,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/native'
 import { RootStackParamList } from 'App'
 import { StackNavigationProp } from '@react-navigation/stack'
-import { useMutation, useQuery } from '@apollo/react-hooks'
+import { useMutation, useQuery } from '@apollo/client'
 
 const SendIcon = (props: any) => <Icon {...props} name="paper-plane" />
 const formatPostDate = (date: Date): string => (dayjs(date) as any).fromNow()
