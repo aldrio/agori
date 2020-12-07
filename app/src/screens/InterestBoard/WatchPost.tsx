@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Post, PostGqlFragment, PostProps } from 'components/Post'
-import { SubscribeToMoreOptions } from 'apollo-client'
+import { SubscribeToMoreOptions } from '@apollo/client'
 import {
   InterestBoardQuery,
   PostChildAddedSubscription,

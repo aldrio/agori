@@ -4,7 +4,7 @@ import { RootStackParamList } from 'App'
 import { StackNavigationProp } from '@react-navigation/stack'
 import { RouteProp } from '@react-navigation/native'
 import { Screen } from 'components/Screen'
-import { Text } from '@ui-kitten/components'
+import { Icon, Text, TopNavigationAction } from '@ui-kitten/components'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import {
@@ -15,6 +15,9 @@ import {
 import { FlatList, ListRenderItem, RefreshControl } from 'react-native'
 import { PostGqlFragment } from 'components/Post'
 import { WatchPost } from './WatchPost'
+import { BlackPortal } from 'react-native-portal'
+
+const AddIcon = (props: any) => <Icon {...props} name="plus-square-outline" />
 
 export const InterestBoardScreenName = 'InterestBoardScreen'
 export type InterestBoardScreenParams = {
@@ -35,8 +38,16 @@ export type InterestBoardProps = {
 }
 export const InterestBoardScreen: React.FC<InterestBoardProps> = ({
   route,
+  navigation,
 }) => {
   const { interestId } = route.params
+
+  const navigateToMakePost = useCallback(() => {
+    navigation.navigate('MakePostScreen', {
+      interestId,
+    })
+  }, [navigation, interestId])
+
   const { data, loading, error, refetch, subscribeToMore } = useQuery<
     InterestBoardQuery,
     InterestBoardQueryVariables
@@ -111,7 +122,11 @@ export const InterestBoardScreen: React.FC<InterestBoardProps> = ({
       error={error?.message}
       noScroll={!!data}
       padding={!data}
+      optionsKey={InterestBoardScreenName}
     >
+      <BlackPortal name={InterestBoardScreenName}>
+        <TopNavigationAction icon={AddIcon} onPress={navigateToMakePost} />
+      </BlackPortal>
       {body}
     </Screen>
   )

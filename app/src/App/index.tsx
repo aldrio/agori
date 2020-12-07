@@ -56,6 +56,11 @@ import {
   InterestBoardScreenName,
   InterestBoardScreenParams,
 } from 'screens/InterestBoard'
+import {
+  MakePostScreen,
+  MakePostScreenName,
+  MakePostScreenParams,
+} from 'screens/MakePost'
 
 export type RootStackParamList = {
   MainTabsScreen: {}
@@ -70,6 +75,7 @@ export type RootStackParamList = {
   [EditAvatarScreenName]: EditAvatarScreenParams
   [EditProfileScreenName]: EditProfileScreenParams
   [InterestBoardScreenName]: InterestBoardScreenParams
+  [MakePostScreenName]: MakePostScreenParams
 }
 
 const Stack = createStackNavigator<RootStackParamList>()
@@ -139,6 +145,10 @@ export const App: React.FC<{}> = () => {
                     <Stack.Screen
                       name={InterestBoardScreenName}
                       component={InterestBoardScreen}
+                    />
+                    <Stack.Screen
+                      name={MakePostScreenName}
+                      component={MakePostScreen}
                     />
                   </>
                 ) : (

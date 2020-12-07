@@ -156,6 +156,29 @@ export interface RemoveInterestMutationVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: SavePostMutation
+// ====================================================
+
+export interface SavePostMutation_createPost {
+  __typename: "Post";
+  id: string;
+}
+
+export interface SavePostMutation {
+  createPost: SavePostMutation_createPost;
+}
+
+export interface SavePostMutationVariables {
+  interestId: string;
+  content: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: EditProfileMutation
 // ====================================================
 
