@@ -6,7 +6,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RouteProp } from '@react-navigation/native'
 import { Screen } from 'components/Screen'
 import { ListItem, List } from '@ui-kitten/components'
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/client'
 import {
   MainScreenQuery,
   MainScreenQuery_me_chats,

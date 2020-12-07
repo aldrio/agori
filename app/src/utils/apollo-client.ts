@@ -1,11 +1,13 @@
 import Config from './config'
 import auth from './auth'
-import ApolloClient from 'apollo-client'
-import { ApolloLink } from 'apollo-link'
-import { InMemoryCache } from 'apollo-cache-inmemory'
-import { HttpLink } from 'apollo-link-http'
-import { WebSocketLink } from 'apollo-link-ws'
-import { getMainDefinition } from 'apollo-utilities'
+import {
+  ApolloClient,
+  ApolloLink,
+  InMemoryCache,
+  HttpLink,
+} from '@apollo/client'
+import { WebSocketLink } from '@apollo/client/link/ws'
+import { getMainDefinition } from '@apollo/client/utilities'
 
 // Create a http link
 const httpLink = new HttpLink({
