@@ -2,7 +2,7 @@ import React from 'react'
 import { useObserver } from 'mobx-react-lite'
 import auth from 'utils/auth'
 
-import { ApolloProvider } from '@apollo/react-hooks'
+import { ApolloProvider } from '@apollo/client'
 
 import { ApplicationProvider, IconRegistry } from '@ui-kitten/components'
 import * as eva from '@eva-design/eva'

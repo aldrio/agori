@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styles from './styles'
 import { Alert } from 'react-native'
 import gql from 'graphql-tag'
-import { useQuery, useMutation } from '@apollo/react-hooks'
+import { useQuery, useMutation } from '@apollo/client'
 import {
   InterestsToggleQuery,
   AddInterestMutation,

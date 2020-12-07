@@ -5,7 +5,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RouteProp } from '@react-navigation/native'
 import { Screen } from 'components/Screen'
 import { AvatarFormGqlFragment, AvatarForm } from 'forms/AvatarForm'
-import { useQuery } from '@apollo/react-hooks'
+import { useQuery } from '@apollo/client'
 import { AvatarQuery } from 'types/apollo-schema-types'
 import gql from 'graphql-tag'
 

@@ -8,7 +8,7 @@ import {
   BackHandler,
 } from 'react-native'
 import { useTheme } from '@ui-kitten/components'
-import { useMutation } from '@apollo/react-hooks'
+import { useMutation } from '@apollo/client'
 import {
   EditAvatarMutation,
   EditAvatarMutationVariables,
