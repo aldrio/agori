@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import styles from './styles'
 import { View, ToastAndroid, Image } from 'react-native'
 import { Input, Text, Icon } from '@ui-kitten/components'
-import { useMutation } from '@apollo/react-hooks'
+import { useMutation } from '@apollo/client'
 import gql from 'graphql-tag'
 import {
   EditProfileMutation,

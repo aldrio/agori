@@ -5,7 +5,7 @@ import { StackNavigationProp } from '@react-navigation/stack'
 import { RouteProp } from '@react-navigation/native'
 import { Screen } from 'components/Screen'
 import { Button, Input, Icon } from '@ui-kitten/components'
-import { useMutation, useQuery } from '@apollo/react-hooks'
+import { useMutation, useQuery } from '@apollo/client'
 import gql from 'graphql-tag'
 import {
   SendMessageMutation,
