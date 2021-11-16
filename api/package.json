@@ -15,7 +15,7 @@
     "@types/uuid": "^8.0.0",
     "apollo-server-koa": "^2.14.2",
     "avatars": "file:../avatars",
-    "aws-sdk": "^2.727.1",
+    "aws-sdk": "^2.814.0",
     "class-sanitizer": "^0.0.5",
     "class-validator": "^0.12.2",
     "dayjs": "^1.8.28",
