@@ -17,7 +17,7 @@
     "avatars": "file:../avatars",
     "aws-sdk": "^2.727.1",
     "class-sanitizer": "^0.0.5",
-    "class-validator": "^0.12.2",
+    "class-validator": "^0.14.0",
     "dayjs": "^1.8.28",
     "dotenv": "^8.2.0",
     "graphql": "^15.0.0",
